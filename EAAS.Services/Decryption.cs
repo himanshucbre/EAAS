@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EAAS.Services.Factory;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,12 @@ namespace EAAS.Services
 {
     public class Decryption : IDecryption
     {
-        public byte[] Decrypt(byte[] dataToEncrypt, string key)
+        public string Decrypt(string text, string key, EncryptionAlgo encryptionAlgo)
         {
-            throw new NotImplementedException();
+            ICryptoProviderFactory cryptoProviderFactory = null;
+
+            cryptoProviderFactory = CryptoProviderFactory.CreateEncryptionFactory(encryptionAlgo);
+            return cryptoProviderFactory.Decrypt(text, key);
         }
     }
 }
