@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace EAAS.Services.Factory
 {
     
-    public class EncryptionProviderFactory
+    public class CryptoProviderFactory
     {
-        public static IEncryptionProviderFactory CreateEncryptionFactory(EncryptionAlgo algo)
+        public static ICryptoProviderFactory CreateEncryptionFactory(EncryptionAlgo algo)
         {           
 
             switch (algo)
@@ -17,7 +17,7 @@ namespace EAAS.Services.Factory
                 case EncryptionAlgo.Aes:
                     return new MD5();
                 case EncryptionAlgo.Rijndael:
-                    return new Rijndael();
+                    return new RijndaelEncryption();
                 default:                    
                     return null;
             }         

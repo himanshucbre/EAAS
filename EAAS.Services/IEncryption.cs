@@ -8,6 +8,6 @@ namespace EAAS.Services
 {
     public interface IEncryption
     {
-        byte[] Encrypt(byte[] dataToEncrypt, string key);         
+        string Encrypt(string plainText, string key);
     }
 }

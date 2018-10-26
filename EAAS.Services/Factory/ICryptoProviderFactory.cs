@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace EAAS.Services
 {
-    public interface IEncryptionProviderFactory
+    public interface ICryptoProviderFactory
     {
-        byte[] Encrypt(byte[] dataToEncrypt, string key);         
+        string Encrypt(string text, string key);
+        string Decrypt(string cipher, string key);
     }
 }
