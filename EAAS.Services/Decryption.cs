@@ -9,11 +9,11 @@ namespace EAAS.Services
 {
     public class Decryption : IDecryption
     {
-        public string Decrypt(string text, string key, EncryptionAlgo encryptionAlgo)
+        public string Decrypt(string text, string key, string encryptionType)
         {
             ICryptoProviderFactory cryptoProviderFactory = null;
 
-            cryptoProviderFactory = CryptoProviderFactory.CreateEncryptionFactory(encryptionAlgo);
+            cryptoProviderFactory = CryptoProviderFactory.CreateEncryptionFactory(encryptionType);
             return cryptoProviderFactory.Decrypt(text, key);
         }
     }

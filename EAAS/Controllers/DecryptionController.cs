@@ -12,9 +12,9 @@ namespace EAAS.Controllers
     {
 
 
-        public string Decrypt(string text, string key, EncryptionAlgo encryptionAlgo)
+        public string Decrypt(string text, string key, string encryptionType)
         {
-            return new Decryption().Decrypt(text, key, encryptionAlgo);
+            return new Decryption().Decrypt(text, key, encryptionType);
         }
 
 

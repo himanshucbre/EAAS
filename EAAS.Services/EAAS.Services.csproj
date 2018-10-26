@@ -44,10 +44,14 @@
     <Compile Include="Decryption.cs" />
     <Compile Include="Encryption.cs" />
     <Compile Include="Enum.cs" />
+    <Compile Include="Factory\AES.cs" />
+    <Compile Include="Factory\AES256.cs" />
     <Compile Include="Factory\CryptoProviderFactory.cs" />
+    <Compile Include="Factory\DES.cs" />
     <Compile Include="Factory\ICryptoProviderFactory.cs" />
     <Compile Include="Factory\MD5.cs" />
     <Compile Include="Factory\Rijndael.cs" />
+    <Compile Include="Factory\TripleDES.cs" />
     <Compile Include="IDecryption.cs" />
     <Compile Include="IEncryption.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

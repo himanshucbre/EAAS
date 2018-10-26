@@ -9,6 +9,6 @@ namespace EAAS.Services
     interface IDecryption
     {
         
-        string Decrypt(string plainText, string key, EncryptionAlgo encryptionAlgo);
+        string Decrypt(string plainText, string key, string encryptionType);
     }
 }

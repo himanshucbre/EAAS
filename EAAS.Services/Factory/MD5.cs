@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EAAS.Services.Factory
 {
-    public class MD5 : ICryptoProviderFactory
+    public class MD5Encryption : ICryptoProviderFactory
     {
        
 

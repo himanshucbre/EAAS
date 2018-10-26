@@ -8,6 +8,6 @@ namespace EAAS.Services
 {
     public interface IEncryption
     {
-        string Encrypt(string plainText, string key, EncryptionAlgo encryptionAlgo);
+        string Encrypt(string plainText, string key, string encryptionType);
     }
 }

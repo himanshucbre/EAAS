@@ -9,15 +9,23 @@ namespace EAAS.Services.Factory
     
     public class CryptoProviderFactory
     {
-        public static ICryptoProviderFactory CreateEncryptionFactory(EncryptionAlgo algo)
+        public static ICryptoProviderFactory CreateEncryptionFactory(string encryptionType)
         {           
 
-            switch (algo)
+            switch (encryptionType.ToLower())
             {
-                case EncryptionAlgo.Aes:
-                    return new MD5();
-                case EncryptionAlgo.Rijndael:
+                case "md5":
+                    return new MD5Encryption();
+                case "rijndael":
                     return new RijndaelEncryption();
+                case "des":
+                    return new DESEncryption();
+                case "tripledes":
+                    return new TripleDESEncryption();
+                case "aes":
+                    return new AESEncryption();
+                case "aes256":
+                    return new AES256Encryption();
                 default:                    
                     return null;
             }         

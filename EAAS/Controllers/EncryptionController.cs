@@ -14,9 +14,9 @@ namespace EAAS.Controllers
 
         // GET: api/Encryption/
         [HttpGet]
-        public string Encrypt(string text, string key, EncryptionAlgo encryptionAlgo)
+        public string Encrypt(string text, string key, string encryptionType)
         {
-           return new Encryption().Encrypt( text,  key,  encryptionAlgo);
+           return new Encryption().Encrypt( text,  key, encryptionType);
         }
 
        

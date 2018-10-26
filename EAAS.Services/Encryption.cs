@@ -7,11 +7,11 @@ namespace EAAS.Services
 {
     public class Encryption : IEncryption
     {
-        public string Encrypt(string text, string key, EncryptionAlgo encryptionAlgo)
+        public string Encrypt(string text, string key, string encryptionType)
         {
             ICryptoProviderFactory cryptoProviderFactory = null;
 
-            cryptoProviderFactory = CryptoProviderFactory.CreateEncryptionFactory(encryptionAlgo);
+            cryptoProviderFactory = CryptoProviderFactory.CreateEncryptionFactory(encryptionType);
             return cryptoProviderFactory.Encrypt(text, key);
         }
     }
