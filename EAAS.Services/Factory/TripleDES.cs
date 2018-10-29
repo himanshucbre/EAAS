@@ -12,27 +12,27 @@ namespace EAAS.Services.Factory
     public class TripleDESEncryption : ICryptoProviderFactory
     {
 
-        public string Encrypt(string PlainText, string key)
+        public string Encrypt(string plainText, string strPassword, byte[] rgbSalt)
         {
 
-            TripleDES des = CreateDES(key);
+            TripleDES des = CreateDES(strPassword);
 
             ICryptoTransform ct = des.CreateEncryptor();
 
-            byte[] input = Encoding.Unicode.GetBytes(PlainText);
+            byte[] input = Encoding.Unicode.GetBytes(plainText);
 
             byte[] buffer = ct.TransformFinalBlock(input, 0, input.Length);
             return Convert.ToBase64String(buffer);
 
         }
 
-        public string Decrypt(string CypherText, string key)
+        public string Decrypt(string cipherText, string strPassword, byte[] rgbSalt)
 
         {
 
-            byte[] b = Convert.FromBase64String(CypherText);
+            byte[] b = Convert.FromBase64String(cipherText);
 
-            TripleDES des = CreateDES(key);
+            TripleDES des = CreateDES(strPassword);
             ICryptoTransform ct = des.CreateDecryptor();
             byte[] output = ct.TransformFinalBlock(b, 0, b.Length);
             return Encoding.Unicode.GetString(output);
@@ -48,6 +48,19 @@ namespace EAAS.Services.Factory
             return des;
         }
 
+        public byte[] Decrypt(byte[] cipherBytes, string strPassword, byte[] rgbSalt)
+        {
+            throw new NotImplementedException();
+        }
+
+       
+
+        public byte[] Encrypt(byte[] plainBytes, string strPassword, byte[] rgbSalt)
+        {
+            throw new NotImplementedException();
+        }
+
+       
     }
 
 }

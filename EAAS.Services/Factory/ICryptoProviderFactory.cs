@@ -8,7 +8,9 @@ namespace EAAS.Services
 {
     public interface ICryptoProviderFactory
     {
-        string Encrypt(string text, string key);
-        string Decrypt(string cipher, string key);
+        byte[] Decrypt(byte[] cipherBytes, string strPassword, byte[] rgbSalt = null);
+        string Decrypt(string cipherText, string strPassword, byte[] rgbSalt = null);
+        byte[] Encrypt(byte[] plainBytes, string strPassword, byte[] rgbSalt = null);
+        string Encrypt(string plainText, string strPassword, byte[] rgbSalt = null);
     }
 }

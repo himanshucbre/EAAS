@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -7,18 +8,14 @@ namespace EAAS.Services.Factory
 {
     public class RijndaelEncryption : ICryptoProviderFactory
     {
-        // This size of the IV (in bytes) must = (keysize / 8).  Default keysize is 256, so the IV must be
-        // 32 bytes long.  Using a 16 character string here gives us 32 bytes when converted to a byte array.
-        private const string initVector = "pemgail9uzpgzl88";
-        // This constant is used to determine the keysize of the encryption algorithm.
-        private const int keysize = 256;
-        //Encrypt
-        public string Encrypt(string plainText, string key)
+
+    
+        public string Encrypt(string plainText, string strPassword, byte[] rgbSalt)
         {
-            byte[] initVectorBytes = Encoding.UTF8.GetBytes(initVector);
+            byte[] initVectorBytes = Encoding.UTF8.GetBytes(Constants.InitVector);
             byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
-            PasswordDeriveBytes password = new PasswordDeriveBytes(key, null);
-            byte[] keyBytes = password.GetBytes(keysize / 8);
+            PasswordDeriveBytes password = new PasswordDeriveBytes(strPassword, rgbSalt);
+            byte[] keyBytes = password.GetBytes(Constants.Keysize / 8);
             RijndaelManaged symmetricKey = new RijndaelManaged();
             symmetricKey.Mode = CipherMode.CBC;
             ICryptoTransform encryptor = symmetricKey.CreateEncryptor(keyBytes, initVectorBytes);
@@ -31,13 +28,32 @@ namespace EAAS.Services.Factory
             cryptoStream.Close();
             return Convert.ToBase64String(cipherTextBytes);
         }
-        //Decrypt
-        public string Decrypt(string cipherText, string key)
+
+        public byte[] Encrypt(byte[] plainBytes, string strPassword, byte[] rgbSalt)
         {
-            byte[] initVectorBytes = Encoding.ASCII.GetBytes(initVector);
+            byte[] initVectorBytes = Encoding.UTF8.GetBytes(Constants.InitVector);
+           
+            PasswordDeriveBytes password = new PasswordDeriveBytes(strPassword, rgbSalt);
+            byte[] keyBytes = password.GetBytes(Constants.Keysize / 8);
+            RijndaelManaged symmetricKey = new RijndaelManaged();
+            symmetricKey.Mode = CipherMode.CBC;
+            ICryptoTransform encryptor = symmetricKey.CreateEncryptor(keyBytes, initVectorBytes);
+            MemoryStream memoryStream = new MemoryStream();
+            CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write);
+            cryptoStream.Write(plainBytes, 0, plainBytes.Length);
+            cryptoStream.FlushFinalBlock();
+            byte[] cipherTextBytes = memoryStream.ToArray();
+            memoryStream.Close();
+            cryptoStream.Close();
+            return cipherTextBytes;
+        }
+       
+        public string Decrypt(string cipherText, string strPassword, byte[] rgbSalt)
+        {
+            byte[] initVectorBytes = Encoding.ASCII.GetBytes(Constants.InitVector);
             byte[] cipherTextBytes = Convert.FromBase64String(cipherText);
-            PasswordDeriveBytes password = new PasswordDeriveBytes(key, null);
-            byte[] keyBytes = password.GetBytes(keysize / 8);
+            PasswordDeriveBytes password = new PasswordDeriveBytes(strPassword, rgbSalt);
+            byte[] keyBytes = password.GetBytes(Constants.Keysize / 8);
             RijndaelManaged symmetricKey = new RijndaelManaged();
             symmetricKey.Mode = CipherMode.CBC;
             ICryptoTransform decryptor = symmetricKey.CreateDecryptor(keyBytes, initVectorBytes);
@@ -50,8 +66,88 @@ namespace EAAS.Services.Factory
             return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
         }
 
-      
-       private static byte[] EncryptStringToBytes(string plainText )
+        public byte[] Decrypt(byte[] cipherBytes, string strPassword, byte[] rgbSalt)
+        {
+            byte[] initVectorBytes = Encoding.ASCII.GetBytes(Constants.InitVector);
+            PasswordDeriveBytes password = new PasswordDeriveBytes(strPassword, rgbSalt);
+            byte[] keyBytes = password.GetBytes(Constants.Keysize / 8);
+            RijndaelManaged symmetricKey = new RijndaelManaged();
+            symmetricKey.Mode = CipherMode.CBC;
+            ICryptoTransform decryptor = symmetricKey.CreateDecryptor(keyBytes, initVectorBytes);
+            MemoryStream memoryStream = new MemoryStream(cipherBytes);
+            CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
+            byte[] plainTextBytes = new byte[cipherBytes.Length];
+            int decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
+            memoryStream.Close();
+            cryptoStream.Close();
+            return plainTextBytes;
+        }
+
+        public void EncryptFile(string inputFile, string outputFile)
+        {
+
+            try
+            {
+                string password = @"myKey123"; // Your Key Here
+                UnicodeEncoding UE = new UnicodeEncoding();
+                byte[] key = UE.GetBytes(password);
+
+                string cryptFile = outputFile;
+                FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create);
+
+                RijndaelManaged RMCrypto = new RijndaelManaged();
+
+                CryptoStream cs = new CryptoStream(fsCrypt,
+                    RMCrypto.CreateEncryptor(key, key),
+                    CryptoStreamMode.Write);
+
+                FileStream fsIn = new FileStream(inputFile, FileMode.Open);
+
+                int data;
+                while ((data = fsIn.ReadByte()) != -1)
+                    cs.WriteByte((byte)data);
+
+
+                fsIn.Close();
+                cs.Close();
+                fsCrypt.Close();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public void DecryptFile(string inputFile, string outputFile)
+        {
+
+            {
+                string password = @"myKey123"; // Your Key Here
+
+                UnicodeEncoding UE = new UnicodeEncoding();
+                byte[] key = UE.GetBytes(password);
+
+                FileStream fsCrypt = new FileStream(inputFile, FileMode.Open);
+
+                RijndaelManaged RMCrypto = new RijndaelManaged();
+
+                CryptoStream cs = new CryptoStream(fsCrypt,
+                    RMCrypto.CreateDecryptor(key, key),
+                    CryptoStreamMode.Read);
+
+                FileStream fsOut = new FileStream(outputFile, FileMode.Create);
+
+                int data;
+                while ((data = cs.ReadByte()) != -1)
+                    fsOut.WriteByte((byte)data);
+
+                fsOut.Close();
+                cs.Close();
+                fsCrypt.Close();
+
+            }
+        }
+
+        private  byte[] EncryptStringToBytes(string plainText )
         {
             byte[] encrypted;
             using (Rijndael myRijndael = Rijndael.Create())
@@ -101,7 +197,7 @@ namespace EAAS.Services.Factory
 
         }
 
-       private static string DecryptStringFromBytes(byte[] cipherText)
+       private  string DecryptStringFromBytes(byte[] cipherText)
         {
             string plaintext = null;
             using (Rijndael myRijndael = Rijndael.Create())
@@ -153,6 +249,35 @@ namespace EAAS.Services.Factory
 
         }
 
-       
+
+        //public static byte[] EncryptByte(byte[] plain, string password)
+        //{
+        //    MemoryStream memoryStream;
+        //    CryptoStream cryptoStream;
+        //    Rijndael rijndael = Rijndael.Create();
+        //    Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(password, SALT);
+        //    rijndael.Key = pdb.GetBytes(32);
+        //    rijndael.IV = pdb.GetBytes(16);
+        //    memoryStream = new MemoryStream();
+        //    cryptoStream = new CryptoStream(memoryStream, rijndael.CreateEncryptor(), CryptoStreamMode.Write);
+        //    cryptoStream.Write(plain, 0, plain.Length);
+        //    cryptoStream.Close();
+        //    return memoryStream.ToArray();
+        //}
+        //public static byte[] DecryptByte(byte[] cipher, string password)
+        //{
+
+        //    MemoryStream memoryStream;
+        //    CryptoStream cryptoStream;
+        //    Rijndael rijndael = Rijndael.Create();
+        //    Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(password, SALT);
+        //    rijndael.Key = pdb.GetBytes(32);
+        //    rijndael.IV = pdb.GetBytes(16);
+        //    memoryStream = new MemoryStream();
+        //    cryptoStream = new CryptoStream(memoryStream, rijndael.CreateDecryptor(), CryptoStreamMode.Write);
+        //    cryptoStream.Write(cipher, 0, cipher.Length);
+        //    cryptoStream.Close();
+        //    return memoryStream.ToArray();
+        //}
     }
 }

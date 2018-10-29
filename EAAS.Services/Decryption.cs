@@ -9,12 +9,22 @@ namespace EAAS.Services
 {
     public class Decryption : IDecryption
     {
-        public string Decrypt(string text, string key, string encryptionType)
+        public string Decrypt(string encryptionType, string cipherText, string strPassword = "", byte[] rgbSalt = null)
         {
             ICryptoProviderFactory cryptoProviderFactory = null;
 
             cryptoProviderFactory = CryptoProviderFactory.CreateEncryptionFactory(encryptionType);
-            return cryptoProviderFactory.Decrypt(text, key);
+            return cryptoProviderFactory.Decrypt(cipherText, strPassword, rgbSalt);
+        }
+
+    
+
+        public byte[] Decrypt(string encryptionType, byte[] cipherBytes, string strPassword = "", byte[] rgbSalt = null)
+        {
+            ICryptoProviderFactory cryptoProviderFactory = null;
+
+            cryptoProviderFactory = CryptoProviderFactory.CreateEncryptionFactory(encryptionType);
+            return cryptoProviderFactory.Decrypt(cipherBytes, strPassword, rgbSalt);
         }
     }
 }

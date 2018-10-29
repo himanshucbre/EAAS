@@ -8,6 +8,9 @@ namespace EAAS.Services
 {
     public interface IEncryption
     {
-        string Encrypt(string plainText, string key, string encryptionType);
+        
+        byte[] Encrypt(string encryptionType , byte[] plainBytes, string strPassword = "", byte[] rgbSalt =  null);
+        string Encrypt(string encryptionType ,string plainText, string strPassword ="", byte[] rgbSalt = null);
+
     }
 }
