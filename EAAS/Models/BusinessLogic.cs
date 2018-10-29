@@ -23,7 +23,7 @@ namespace EAAS.Models
                 if (dt != null && dt.Rows.Count > 0)
                 {
                     ObjUserResponse.AppName = dt.Rows[0]["AppName"].ToString();
-                    List<string> UrlList = dt.Rows[0]["UrlList"].ToString().Split(',').ToList<string>();
+                    List<string> UrlList = dt.Rows[0]["UrlList"].ToString().Split(';').ToList<string>();
                     ObjUserResponse.UrlList = UrlList;
                     ObjUserResponse.EncryptionKey = dt.Rows[0]["EncryptionKey"].ToString();
 
