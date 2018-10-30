@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 namespace EAAS.Services
 {
     interface IDecryption
-    {
-        
-        string Decrypt(string plainText, string key, string encryptionType);
+    {        
+       
+        byte[] Decrypt(string encryptionType , byte[] cipherBytes, string strPassword = "", byte[] rgbSalt = null);
+        string Decrypt(string encryptionType ,string cipherText, string strPassword = "", byte[] rgbSalt = null);
     }
 }

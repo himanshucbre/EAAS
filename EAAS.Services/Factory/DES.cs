@@ -10,7 +10,7 @@ namespace EAAS.Services.Factory
 {
     public class DESEncryption : ICryptoProviderFactory
     {
-        public string Encrypt(string PlainText, string key)
+        public string Encrypt(string plainText, string strPassword, byte[] rgbSalt)
         {
             TripleDESCryptoServiceProvider desCryptoProvider = new TripleDESCryptoServiceProvider();
             MD5CryptoServiceProvider hashMD5Provider = new MD5CryptoServiceProvider();
@@ -18,16 +18,16 @@ namespace EAAS.Services.Factory
             byte[] byteHash;
             byte[] byteBuff;
 
-            byteHash = hashMD5Provider.ComputeHash(Encoding.UTF8.GetBytes(key));
+            byteHash = hashMD5Provider.ComputeHash(Encoding.UTF8.GetBytes(strPassword));
             desCryptoProvider.Key = byteHash;
             desCryptoProvider.Mode = CipherMode.ECB; //CBC, CFB
-            byteBuff = Encoding.UTF8.GetBytes(PlainText);
+            byteBuff = Encoding.UTF8.GetBytes(plainText);
 
             string encoded =
                 Convert.ToBase64String(desCryptoProvider.CreateEncryptor().TransformFinalBlock(byteBuff, 0, byteBuff.Length));
             return encoded;
         }
-        public string Decrypt(string CypherText, string key)
+        public string Decrypt(string cipherText, string strPassword, byte[] rgbSalt)
         {
             TripleDESCryptoServiceProvider desCryptoProvider = new TripleDESCryptoServiceProvider();
             MD5CryptoServiceProvider hashMD5Provider = new MD5CryptoServiceProvider();
@@ -35,16 +35,28 @@ namespace EAAS.Services.Factory
             byte[] byteHash;
             byte[] byteBuff;
 
-            byteHash = hashMD5Provider.ComputeHash(Encoding.UTF8.GetBytes(key));
+            byteHash = hashMD5Provider.ComputeHash(Encoding.UTF8.GetBytes(strPassword));
             desCryptoProvider.Key = byteHash;
             desCryptoProvider.Mode = CipherMode.ECB; //CBC, CFB
-            byteBuff = Convert.FromBase64String(CypherText);
+            byteBuff = Convert.FromBase64String(cipherText);
 
             string plaintext = Encoding.UTF8.GetString(desCryptoProvider.CreateDecryptor().TransformFinalBlock(byteBuff, 0, byteBuff.Length));
             return plaintext;
         }
 
+        public byte[] Decrypt(byte[] cipherBytes, string strPassword, byte[] rgbSalt)
+        {
+            throw new NotImplementedException();
+        }
 
+     
+
+        public byte[] Encrypt(byte[] plainBytes, string strPassword, byte[] rgbSalt)
+        {
+            throw new NotImplementedException();
+        }
+
+       
     }
 
 }

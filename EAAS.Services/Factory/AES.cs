@@ -11,9 +11,16 @@ namespace EAAS.Services.Factory
 {
     public class AESEncryption : ICryptoProviderFactory
     {
-        public string Decrypt(string cipherText, string key)
+        public byte[] Decrypt(byte[] cipherBytes, string strPassword, byte[] rgbSalt)
         {
-            string EncryptionKey = key;
+            throw new NotImplementedException();
+        }
+
+      
+
+        public string Decrypt(string cipherText, string strPassword, byte[] rgbSalt)
+        {
+            string EncryptionKey = strPassword;
             byte[] cipherBytes = Convert.FromBase64String(cipherText);
             using (Aes encryptor = Aes.Create())
             {
@@ -33,10 +40,17 @@ namespace EAAS.Services.Factory
             return cipherText;
         }
 
-        public string Encrypt(string clearText, string key)
+        public byte[] Encrypt(byte[] plainBytes, string strPassword, byte[] rgbSalt)
+        {
+            throw new NotImplementedException();
+        }
+
+     
+
+        public string Encrypt(string plainText, string strPassword, byte[] rgbSalt)
         {
             string EncryptionKey = "MAKV2SPBNI99212";
-            byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
+            byte[] clearBytes = Encoding.Unicode.GetBytes(plainText);
             using (Aes encryptor = Aes.Create())
             {
                 Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
@@ -49,10 +63,10 @@ namespace EAAS.Services.Factory
                         cs.Write(clearBytes, 0, clearBytes.Length);
                         cs.Close();
                     }
-                    clearText = Convert.ToBase64String(ms.ToArray());
+                    plainText = Convert.ToBase64String(ms.ToArray());
                 }
             }
-            return clearText;
+            return plainText;
         }
     }
 }
