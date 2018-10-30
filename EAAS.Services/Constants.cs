@@ -18,8 +18,8 @@ namespace EAAS.Services
 
         // This size of the IV (in bytes) must = (keysize / 8).  Default keysize is 256, so the IV must be
         // 32 bytes long.  Using a 16 character string here gives us 32 bytes when converted to a byte array.
-        public static readonly string InitVector = ConfigurationManager.AppSettings.Get("InitVector"); //"pemgail9uzpgzl88";
+        public static readonly string InitVector = "pemgail9uzpgzl88"; // ConfigurationManager.AppSettings.Get("InitVector"); //"pemgail9uzpgzl88";
         // This constant is used to determine the keysize of the encryption algorithm.
-        public static readonly int Keysize =  int.Parse(ConfigurationManager.AppSettings.Get("Keysize")) ;//256;
+        public static readonly int Keysize = 256;// int.Parse(ConfigurationManager.AppSettings.Get("Keysize")) ;//256;
     }
 }
