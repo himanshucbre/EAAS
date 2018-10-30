@@ -13,6 +13,7 @@ namespace EAAS.Models
         SqlDataAdapter da;
         SqlCommand Cmd;
         DataTable Dt;
+        DataSet Ds;
         public void OpenConnection()
         {
             string ConStr = System.Configuration.ConfigurationSettings.AppSettings["DBConnection"].ToString();
@@ -42,6 +43,23 @@ namespace EAAS.Models
             da.Fill(Dt);
             ClosedConnection();
             return Dt;
+        }
+
+        public DataSet GetDataSet(Dictionary<string, object> Dic, string Command)
+        {
+            Ds = new DataSet();
+            OpenConnection();
+            Cmd = new SqlCommand(Command, Con);
+            Cmd.CommandType = CommandType.StoredProcedure;
+            foreach (KeyValuePair<string, object> KVP in Dic)
+            {
+                SqlParameter param = new SqlParameter(KVP.Key, KVP.Value);
+                Cmd.Parameters.Add(param);
+            }
+            da = new SqlDataAdapter(Cmd);
+            da.Fill(Ds);
+            ClosedConnection();
+            return Ds;
         }
         public void ExecuteNonQuery(Dictionary<string, object> Dic, string Command)
         {
