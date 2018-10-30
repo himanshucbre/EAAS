@@ -57,7 +57,7 @@ namespace EAAS.Services.Factory
 
         {
             //Create our key from the password provided
-            PasswordDeriveBytes pdb = new PasswordDeriveBytes(password, SALT, "SHA512", iterations);
+            PasswordDeriveBytes pdb = new PasswordDeriveBytes(password, rgbSalt, "SHA512", iterations);
 
             //We'll be using 3DES
             TripleDES des = TripleDES.Create();
