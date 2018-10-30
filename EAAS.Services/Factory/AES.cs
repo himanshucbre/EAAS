@@ -13,10 +13,34 @@ namespace EAAS.Services.Factory
     {
         public byte[] Decrypt(byte[] cipherBytes, string strPassword, byte[] rgbSalt)
         {
-            throw new NotImplementedException();
+            byte[] ivSeed = Guid.NewGuid().ToByteArray();
+
+            var rfc = new Rfc2898DeriveBytes(strPassword, ivSeed);
+            byte[] Key = rfc.GetBytes(16);
+            byte[] IV = rfc.GetBytes(16);
+
+            byte[] plain;
+            using (MemoryStream mStream = new MemoryStream(cipherBytes)) //add encrypted
+            {
+                using (AesCryptoServiceProvider aesProvider = new AesCryptoServiceProvider())
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream(mStream,
+                        aesProvider.CreateDecryptor(Key, IV), CryptoStreamMode.Read))
+                    {
+                        //cryptoStream.Read(encrypted, 0, encrypted.Length);
+                        using (StreamReader stream = new StreamReader(cryptoStream))
+                        {
+                            string sf = stream.ReadToEnd();
+                            plain = System.Text.Encoding.Default.GetBytes(sf);
+                        }
+                    }
+                }
+            }
+            return plain;
+
         }
 
-      
+
 
         public string Decrypt(string cipherText, string strPassword, byte[] rgbSalt)
         {
@@ -42,7 +66,25 @@ namespace EAAS.Services.Factory
 
         public byte[] Encrypt(byte[] plainBytes, string strPassword, byte[] rgbSalt)
         {
-            throw new NotImplementedException();
+            byte[] ivSeed = Guid.NewGuid().ToByteArray();
+
+            var rfc = new Rfc2898DeriveBytes(strPassword, ivSeed);
+            byte[] Key = rfc.GetBytes(16);
+            byte[] IV = rfc.GetBytes(16);
+            byte[] encrypted; ;
+            using (MemoryStream mstream = new MemoryStream())
+            {
+                using (AesCryptoServiceProvider aesProvider = new AesCryptoServiceProvider())
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream(mstream,
+                        aesProvider.CreateEncryptor(Key, IV), CryptoStreamMode.Write))
+                    {
+                        cryptoStream.Write(plainBytes, 0, plainBytes.Length);
+                    }
+                    encrypted = mstream.ToArray();
+                }
+            }
+            return encrypted;
         }
 
      

@@ -5,11 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.Security.Cryptography;
+using System.IO;
 
 namespace EAAS.Services.Factory
 {
     public class DESEncryption : ICryptoProviderFactory
     {
+        private static byte[] SALT = { 34, 65, 11, 12, 16, 0, 65, 128, 92, 72, 65, 23, 87, 11, 10, 8 };
+        private enum CryptProc { ENCRYPT, DECRYPT };
         public string Encrypt(string plainText, string strPassword, byte[] rgbSalt)
         {
             TripleDESCryptoServiceProvider desCryptoProvider = new TripleDESCryptoServiceProvider();
@@ -46,17 +49,37 @@ namespace EAAS.Services.Factory
 
         public byte[] Decrypt(byte[] cipherBytes, string strPassword, byte[] rgbSalt)
         {
-            throw new NotImplementedException();
+            return CryptBytes(cipherBytes, strPassword, 2, CryptProc.DECRYPT, rgbSalt);
         }
 
-     
 
+        private static byte[] CryptBytes(byte[] plain, string password, int iterations, CryptProc cryptproc, byte[] rgbSalt)
+
+        {
+            //Create our key from the password provided
+            PasswordDeriveBytes pdb = new PasswordDeriveBytes(password, SALT, "SHA512", iterations);
+
+            //We'll be using 3DES
+            TripleDES des = TripleDES.Create();
+            des.Key = pdb.GetBytes(24);
+            des.IV = pdb.GetBytes(8);
+            MemoryStream memstream = new MemoryStream();
+            ICryptoTransform cryptor = (cryptproc == CryptProc.ENCRYPT) ? des.CreateEncryptor() : des.CreateDecryptor();
+            CryptoStream cryptostream = new CryptoStream(memstream, cryptor, CryptoStreamMode.Write);
+            cryptostream.Write(plain, 0, plain.Length); //write finished product to our MemoryStream
+            cryptostream.Close();
+            return memstream.ToArray();
+
+        }
         public byte[] Encrypt(byte[] plainBytes, string strPassword, byte[] rgbSalt)
         {
-            throw new NotImplementedException();
-        }
 
+            return CryptBytes(plainBytes, strPassword, 2, CryptProc.ENCRYPT, rgbSalt);
+           
+        }
        
+
+
     }
 
 }
