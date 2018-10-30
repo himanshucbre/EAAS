@@ -11,8 +11,11 @@ namespace EAAS.Services.Factory
     {
         public static ICryptoProviderFactory CreateEncryptionFactory(string encryptionType)
         {           
-
-            switch (encryptionType.ToLower())
+            if(string.IsNullOrEmpty(encryptionType))
+            {
+                throw new NullReferenceException(encryptionType);
+            }
+            switch (encryptionType.Trim().ToLower())
             {
                 case "md5":
                     return new MD5Encryption();
