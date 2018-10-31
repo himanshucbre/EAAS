@@ -17,7 +17,8 @@ namespace EAAS.Models
         DataSet Ds;
         public void OpenConnection()
         {
-            string ConStr = "Data Source=eaas.database.windows.net,1433;User id=eaascbre;Initial catalog=EAAS;password=Cbre@123;";// System.Configuration.ConfigurationSettings.AppSettings["DBConnection"].ToString();
+            string ConStr = "server=eaas.database.windows.net,1433;Initial Catalog=EAAS;uid=eaascbre;password=Cbre@123; MultipleActiveResultSets=True ;";
+              //  "Data Source=eaas.database.windows.net,1433;User id=eaascbre;Initial catalog=EAAS;password=Cbre@123;";// System.Configuration.ConfigurationSettings.AppSettings["DBConnection"].ToString();
             Con = new SqlConnection(ConStr);
             if (Con.State == ConnectionState.Closed)
             {

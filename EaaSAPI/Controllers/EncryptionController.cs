@@ -50,8 +50,8 @@ namespace EaaSAPI.Controllers
             return Ok(new Encryption().Encrypt(encryptionType, plainBytes, key, salt));
         }
 
-        [HttpGet]
-        public IActionResult Encrypt(List<RequestModel> model)
+        [HttpPost]
+        public IActionResult Encrypt([FromBody] List<RequestModel> model)
         {
             var result =new List<string>();
 

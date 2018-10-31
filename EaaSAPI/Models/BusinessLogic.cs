@@ -98,7 +98,7 @@ namespace EAAS.Models
             }
             catch (Exception ex)
             {
-                return userappinfo;
+                throw;
             }
         }
 

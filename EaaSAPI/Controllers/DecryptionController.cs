@@ -47,8 +47,8 @@ namespace EaaSAPI.Controllers
             return Ok(new Decryption().Decrypt(encryptionType, cipherBytes, key,salt));
         }
 
-        [HttpGet]
-        public IActionResult Decrypt(List<RequestModel> model)
+        [HttpPost]
+        public IActionResult Decrypt([FromBody] List<RequestModel> model)
         {
             var result = new List<string>();
 
