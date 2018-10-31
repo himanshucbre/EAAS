@@ -5,6 +5,7 @@ using System.Web;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Text;
 namespace EAAS.Models
 {
     public class DBConnectivity
@@ -36,14 +37,31 @@ namespace EAAS.Models
             Cmd.CommandType = CommandType.StoredProcedure;
             foreach (KeyValuePair<string, object> KVP in Dic)
             {
-                SqlParameter param = new SqlParameter(KVP.Key, KVP.Value);
-                Cmd.Parameters.Add(param);
+                //SqlParameter param = new SqlParameter(KVP.Key, KVP.Value);
+                Cmd.Parameters.AddWithValue(KVP.Key, KVP.Value.ToString());
+               // Cmd.Parameters.Add(param);
             }
             da = new SqlDataAdapter(Cmd);
             da.Fill(Dt);
             ClosedConnection();
             return Dt;
         }
+
+        public DataTable GetTableData(SqlParameter [] parameters, string Command)
+        {
+            Dt = new DataTable();
+            OpenConnection();
+            Cmd = new SqlCommand(Command, Con);
+            Cmd.CommandType = CommandType.StoredProcedure;
+            Cmd.Parameters.AddRange(parameters);
+            da = new SqlDataAdapter(Cmd);
+            da.Fill(Dt);
+            ClosedConnection();
+            return Dt;
+        }
+
+
+
 
         public DataSet GetDataSet(Dictionary<string, object> Dic, string Command)
         {
@@ -61,18 +79,6 @@ namespace EAAS.Models
             ClosedConnection();
             return Ds;
         }
-        public void ExecuteNonQuery(Dictionary<string, object> Dic, string Command)
-        {
-            OpenConnection();
-            Cmd = new SqlCommand(Command, Con);
-            Cmd.CommandType = CommandType.StoredProcedure;
-            foreach (KeyValuePair<string, object> KVP in Dic)
-            {
-                SqlParameter param = new SqlParameter(KVP.Key, KVP.Value);
-                Cmd.Parameters.Add(param);
-            }
-            Cmd.ExecuteNonQuery();
-            ClosedConnection();
-        }
+        
     }
 }
