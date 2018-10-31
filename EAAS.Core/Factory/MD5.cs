@@ -11,7 +11,7 @@ namespace EAAS.Core.Factory
     {
        
 
-        public string Encrypt(string plainText, string key, byte[] rgbSalt)
+        public string Encrypt(string plainText, string key, byte[] salt)
         {
             using (var md5 = new MD5CryptoServiceProvider())
             {
@@ -31,7 +31,7 @@ namespace EAAS.Core.Factory
             }
         }
 
-        public  string Decrypt(string cipherText, string key, byte[] rgbSalt)
+        public  string Decrypt(string cipherText, string key, byte[] salt)
         {
             using (var md5 = new MD5CryptoServiceProvider())
             {
@@ -51,7 +51,7 @@ namespace EAAS.Core.Factory
             }
         }
 
-        public byte[] Decrypt(byte[] cipherBytes, string key, byte[] rgbSalt)
+        public byte[] Decrypt(byte[] cipherBytes, string key, byte[] salt)
         {
             using (var md5 = new MD5CryptoServiceProvider())
             {
@@ -71,7 +71,7 @@ namespace EAAS.Core.Factory
         }
             
 
-        public byte[] Encrypt(byte[] plainBytes, string key, byte[] rgbSalt)
+        public byte[] Encrypt(byte[] plainBytes, string key, byte[] salt)
         {
             using (var md5 = new MD5CryptoServiceProvider())
             {

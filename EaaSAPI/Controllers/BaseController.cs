@@ -12,12 +12,22 @@ namespace EaaSAPI.Controllers
     [ApiController]
     public class BaseController : ControllerBase
     {
-        protected readonly string appKey;
-        protected readonly string appSecret;
-
         
-      
+        public string appKey
+        {
+            get
+            {
+                return HttpContext?.Request.Headers["appKey"] ?? string.Empty; 
+            }
+        }
 
-       
+        public string appSecret
+        {
+            get
+            {
+                return HttpContext?.Request.Headers["appSecret"] ?? string.Empty;
+            }
+        }
+
     }
 }

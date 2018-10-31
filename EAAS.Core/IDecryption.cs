@@ -9,7 +9,7 @@ namespace EAAS.Core
     interface IDecryption
     {        
        
-        byte[] Decrypt(string encryptionType , byte[] cipherBytes, string key = "", byte[] rgbSalt = null);
-        string Decrypt(string encryptionType ,string cipherText, string key = "", byte[] rgbSalt = null);
+        byte[] Decrypt(string encryptionType , byte[] cipherBytes, string key = "", byte[] salt = null);
+        string Decrypt(string encryptionType ,string cipherText, string key = "", byte[] salt = null);
     }
 }

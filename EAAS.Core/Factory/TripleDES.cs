@@ -12,7 +12,7 @@ namespace EAAS.Core.Factory
     public class TripleDESEncryption : ICryptoProviderFactory
     {
 
-        public string Encrypt(string plainText, string key, byte[] rgbSalt)
+        public string Encrypt(string plainText, string key, byte[] salt)
         {
 
             TripleDES des = CreateDES(key);
@@ -26,7 +26,7 @@ namespace EAAS.Core.Factory
 
         }
 
-        public string Decrypt(string cipherText, string key, byte[] rgbSalt)
+        public string Decrypt(string cipherText, string key, byte[] salt)
 
         {
 
@@ -48,14 +48,14 @@ namespace EAAS.Core.Factory
             return des;
         }
 
-        public byte[] Decrypt(byte[] cipherBytes, string key, byte[] rgbSalt)
+        public byte[] Decrypt(byte[] cipherBytes, string key, byte[] salt)
         {
             throw new NotImplementedException();
         }
 
        
 
-        public byte[] Encrypt(byte[] plainBytes, string key, byte[] rgbSalt)
+        public byte[] Encrypt(byte[] plainBytes, string key, byte[] salt)
         {
             throw new NotImplementedException();
         }

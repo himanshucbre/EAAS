@@ -3,13 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAAS", "EAAS\EAAS.csproj", "{15B441E6-FF2A-479C-8419-C597F17F7535}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAAS.Services", "EAAS.Services\EAAS.Services.csproj", "{2203AC34-5A48-4693-BB64-BA2F13ACD387}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EaaSAPI", "EaaSAPI\EaaSAPI.csproj", "{31BFDCC3-E5BD-4BEA-BE98-3FBC45C572FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAAS.Core", "EAAS.Core\EAAS.Core.csproj", "{21D3FF06-2214-4E7B-8210-DC67787B5D7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EAAS.Core", "EAAS.Core\EAAS.Core.csproj", "{21D3FF06-2214-4E7B-8210-DC67787B5D7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,14 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{15B441E6-FF2A-479C-8419-C597F17F7535}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{15B441E6-FF2A-479C-8419-C597F17F7535}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{15B441E6-FF2A-479C-8419-C597F17F7535}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{15B441E6-FF2A-479C-8419-C597F17F7535}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2203AC34-5A48-4693-BB64-BA2F13ACD387}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2203AC34-5A48-4693-BB64-BA2F13ACD387}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2203AC34-5A48-4693-BB64-BA2F13ACD387}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2203AC34-5A48-4693-BB64-BA2F13ACD387}.Release|Any CPU.Build.0 = Release|Any CPU
 		{31BFDCC3-E5BD-4BEA-BE98-3FBC45C572FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{31BFDCC3-E5BD-4BEA-BE98-3FBC45C572FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31BFDCC3-E5BD-4BEA-BE98-3FBC45C572FD}.Release|Any CPU.ActiveCfg = Release|Any CPU

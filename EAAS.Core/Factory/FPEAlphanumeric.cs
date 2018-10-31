@@ -8,24 +8,24 @@ namespace EAAS.Core.Factory
 {
     public class FPEAlphanumeric : ICryptoProviderFactory
     {
-        public string Encrypt(string plainText, string strPassword, byte[] rgbSalt)
+        public string Encrypt(string plainText, string strPassword, byte[] salt)
         {
             FPEHashCrypto fpeHashCrypto = new FPEHashCrypto(strPassword);
             return fpeHashCrypto.Process(plainText, strPassword, Mode.Encrypt);
         }
 
-        public string Decrypt(string cipherText, string strPassword, byte[] rgbSalt)
+        public string Decrypt(string cipherText, string strPassword, byte[] salt)
         {
             FPEHashCrypto fpeHashCrypto = new FPEHashCrypto(strPassword);
             return fpeHashCrypto.Process(cipherText, strPassword, Mode.Decrypt);
         }
 
-        public byte[] Decrypt(byte[] cipherBytes, string strPassword, byte[] rgbSalt)
+        public byte[] Decrypt(byte[] cipherBytes, string strPassword, byte[] salt)
         {
             throw new NotImplementedException();
         }
 
-        public byte[] Encrypt(byte[] plainBytes, string strPassword, byte[] rgbSalt)
+        public byte[] Encrypt(byte[] plainBytes, string strPassword, byte[] salt)
         {
             throw new NotImplementedException();
         }

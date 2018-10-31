@@ -9,8 +9,8 @@ namespace EAAS.Core
     public interface IEncryption
     {
         
-        byte[] Encrypt(string encryptionType , byte[] plainBytes, string key = "", byte[] rgbSalt =  null);
-        string Encrypt(string encryptionType ,string plainText, string key ="", byte[] rgbSalt = null);
+        byte[] Encrypt(string encryptionType , byte[] plainBytes, string key = "", byte[] salt =  null);
+        string Encrypt(string encryptionType ,string plainText, string key ="", byte[] salt = null);
 
     }
 }

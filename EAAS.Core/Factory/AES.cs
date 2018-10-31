@@ -11,7 +11,7 @@ namespace EAAS.Core.Factory
 {
     public class AESEncryption : ICryptoProviderFactory
     {
-        public byte[] Decrypt(byte[] cipherBytes, string key, byte[] rgbSalt)
+        public byte[] Decrypt(byte[] cipherBytes, string key, byte[] salt)
         {
             byte[] ivSeed = Guid.NewGuid().ToByteArray();
 
@@ -42,7 +42,7 @@ namespace EAAS.Core.Factory
 
 
 
-        public string Decrypt(string cipherText, string key, byte[] rgbSalt)
+        public string Decrypt(string cipherText, string key, byte[] salt)
         {
             string EncryptionKey = key;
             byte[] cipherBytes = Convert.FromBase64String(cipherText);
@@ -64,7 +64,7 @@ namespace EAAS.Core.Factory
             return cipherText;
         }
 
-        public byte[] Encrypt(byte[] plainBytes, string key, byte[] rgbSalt)
+        public byte[] Encrypt(byte[] plainBytes, string key, byte[] salt)
         {
             byte[] ivSeed = Guid.NewGuid().ToByteArray();
 
@@ -89,7 +89,7 @@ namespace EAAS.Core.Factory
 
      
 
-        public string Encrypt(string plainText, string key, byte[] rgbSalt)
+        public string Encrypt(string plainText, string key, byte[] salt)
         {
             string EncryptionKey = "MAKV2SPBNI99212";
             byte[] clearBytes = Encoding.Unicode.GetBytes(plainText);

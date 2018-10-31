@@ -104,50 +104,7 @@ namespace EAAS.Models
             }
         }
 
-        //public string AppRegistration(string UserId,string AppId,string AppName, List<EncryptionKeyValue> AppEncryptionKey, List<string> Urls)
-        //{
-        //    string Result = "";
-        //    try
-        //    {
-        //        DataTable dt = new DataTable();
-        //        Dictionary<string, object> Dic = new Dictionary<string, object>();
-        //        StringBuilder sbUrl = new StringBuilder();
-        //        foreach (string list in Urls)
-        //        {
-        //            sbUrl.Append(list + ";");
-        //        }
-        //        if (sbUrl.Length != 0)
-        //        {
-        //            sbUrl.Remove(sbUrl.Length - 1, 1);
-        //        }
-        //        StringBuilder XMLencryptionKey = new StringBuilder();
-        //        XMLencryptionKey.Append("<Keys>");
-        //        foreach (var EK in AppEncryptionKey)
-        //        {                                        
-        //            XMLencryptionKey.Append("<Key>");
-        //            XMLencryptionKey.Append("<EncryptionType>" + EK.EncryptionType+ "</EncryptionType>");
-        //            XMLencryptionKey.Append("<EncryptionKey>" + EK.EncryptionKey + "</EncryptionKey>");
-        //            XMLencryptionKey.Append("<EncryptionSalt>" + EK.EncryptionSalt + "</EncryptionSalt></Key>");
-        //        }
-        //        XMLencryptionKey.Append("</Keys>");
-        //        string XMLData = XMLencryptionKey.ToString();
-        //        Dic.Add("@AppId", AppId);
-        //        Dic.Add("@AppName", AppName);
-        //        Dic.Add("@UserId", UserId);
-        //        Dic.Add("@Urls", sbUrl);               
-        //        Dic.Add("@AppEncryptionKey", XMLData);
-        //        dt = DBObj.GetTableData(Dic, "SP_AppRegistration");
-        //        if (dt != null && dt.Rows.Count > 0)
-        //        {
-        //            Result = dt.Rows[0]["Code"].ToString(); ;
-        //        }
-        //        return Result;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Result;
-        //    }
-        //}
+        
 
         public string AppRegistration(string UserId, string AppId, string AppName, List<EncryptionKeyValue> EncryptionList, List<string> Urls)
         {

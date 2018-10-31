@@ -10,11 +10,11 @@ namespace EAAS.Core.Factory
     {
 
     
-        public string Encrypt(string plainText, string key, byte[] rgbSalt)
+        public string Encrypt(string plainText, string key, byte[] salt)
         {
             byte[] initVectorBytes = Encoding.UTF8.GetBytes(Constants.InitVector);
             byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
-            PasswordDeriveBytes password = new PasswordDeriveBytes(key, rgbSalt);
+            PasswordDeriveBytes password = new PasswordDeriveBytes(key, salt);
             byte[] keyBytes = password.GetBytes(Constants.Keysize / 8);
             RijndaelManaged symmetricKey = new RijndaelManaged();
             symmetricKey.Mode = CipherMode.CBC;
@@ -29,11 +29,11 @@ namespace EAAS.Core.Factory
             return Convert.ToBase64String(cipherTextBytes);
         }
 
-        public byte[] Encrypt(byte[] plainBytes, string key, byte[] rgbSalt)
+        public byte[] Encrypt(byte[] plainBytes, string key, byte[] salt)
         {
             byte[] initVectorBytes = Encoding.UTF8.GetBytes(Constants.InitVector);
            
-            PasswordDeriveBytes password = new PasswordDeriveBytes(key, rgbSalt);
+            PasswordDeriveBytes password = new PasswordDeriveBytes(key, salt);
             byte[] keyBytes = password.GetBytes(Constants.Keysize / 8);
             RijndaelManaged symmetricKey = new RijndaelManaged();
             symmetricKey.Mode = CipherMode.CBC;
@@ -48,11 +48,11 @@ namespace EAAS.Core.Factory
             return cipherTextBytes;
         }
        
-        public string Decrypt(string cipherText, string key, byte[] rgbSalt)
+        public string Decrypt(string cipherText, string key, byte[] salt)
         {
             byte[] initVectorBytes = Encoding.ASCII.GetBytes(Constants.InitVector);
             byte[] cipherTextBytes = Convert.FromBase64String(cipherText);
-            PasswordDeriveBytes password = new PasswordDeriveBytes(key, rgbSalt);
+            PasswordDeriveBytes password = new PasswordDeriveBytes(key, salt);
             byte[] keyBytes = password.GetBytes(Constants.Keysize / 8);
             RijndaelManaged symmetricKey = new RijndaelManaged();
             symmetricKey.Mode = CipherMode.CBC;
@@ -66,10 +66,10 @@ namespace EAAS.Core.Factory
             return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
         }
 
-        public byte[] Decrypt(byte[] cipherBytes, string key, byte[] rgbSalt)
+        public byte[] Decrypt(byte[] cipherBytes, string key, byte[] salt)
         {
             byte[] initVectorBytes = Encoding.ASCII.GetBytes(Constants.InitVector);
-            PasswordDeriveBytes password = new PasswordDeriveBytes(key, rgbSalt);
+            PasswordDeriveBytes password = new PasswordDeriveBytes(key, salt);
             byte[] keyBytes = password.GetBytes(Constants.Keysize / 8);
             RijndaelManaged symmetricKey = new RijndaelManaged();
             symmetricKey.Mode = CipherMode.CBC;

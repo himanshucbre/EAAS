@@ -13,7 +13,7 @@ namespace EAAS.Core.Factory
     {
         private static byte[] SALT = { 34, 65, 11, 12, 16, 0, 65, 128, 92, 72, 65, 23, 87, 11, 10, 8 };
         private enum CryptProc { ENCRYPT, DECRYPT };
-        public string Encrypt(string plainText, string key, byte[] rgbSalt)
+        public string Encrypt(string plainText, string key, byte[] salt)
         {
             TripleDESCryptoServiceProvider desCryptoProvider = new TripleDESCryptoServiceProvider();
             MD5CryptoServiceProvider hashMD5Provider = new MD5CryptoServiceProvider();
@@ -30,7 +30,7 @@ namespace EAAS.Core.Factory
                 Convert.ToBase64String(desCryptoProvider.CreateEncryptor().TransformFinalBlock(byteBuff, 0, byteBuff.Length));
             return encoded;
         }
-        public string Decrypt(string cipherText, string key, byte[] rgbSalt)
+        public string Decrypt(string cipherText, string key, byte[] salt)
         {
             TripleDESCryptoServiceProvider desCryptoProvider = new TripleDESCryptoServiceProvider();
             MD5CryptoServiceProvider hashMD5Provider = new MD5CryptoServiceProvider();
@@ -47,17 +47,17 @@ namespace EAAS.Core.Factory
             return plaintext;
         }
 
-        public byte[] Decrypt(byte[] cipherBytes, string key, byte[] rgbSalt)
+        public byte[] Decrypt(byte[] cipherBytes, string key, byte[] salt)
         {
-            return CryptBytes(cipherBytes, key, 2, CryptProc.DECRYPT, rgbSalt);
+            return CryptBytes(cipherBytes, key, 2, CryptProc.DECRYPT, salt);
         }
 
 
-        private static byte[] CryptBytes(byte[] plain, string password, int iterations, CryptProc cryptproc, byte[] rgbSalt)
+        private static byte[] CryptBytes(byte[] plain, string password, int iterations, CryptProc cryptproc, byte[] salt)
 
         {
             //Create our key from the password provided
-            PasswordDeriveBytes pdb = new PasswordDeriveBytes(password, rgbSalt, "SHA512", iterations);
+            PasswordDeriveBytes pdb = new PasswordDeriveBytes(password, salt, "SHA512", iterations);
 
             //We'll be using 3DES
             TripleDES des = TripleDES.Create();
@@ -71,10 +71,10 @@ namespace EAAS.Core.Factory
             return memstream.ToArray();
 
         }
-        public byte[] Encrypt(byte[] plainBytes, string key, byte[] rgbSalt)
+        public byte[] Encrypt(byte[] plainBytes, string key, byte[] salt)
         {
 
-            return CryptBytes(plainBytes, key, 2, CryptProc.ENCRYPT, rgbSalt);
+            return CryptBytes(plainBytes, key, 2, CryptProc.ENCRYPT, salt);
            
         }
        

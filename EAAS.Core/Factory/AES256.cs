@@ -12,7 +12,7 @@ namespace EAAS.Core.Factory
     public class AES256Encryption : ICryptoProviderFactory
     {          
 
-        public byte[] Decrypt(byte[] cipherBytes, string key, byte[] rgbSalt)
+        public byte[] Decrypt(byte[] cipherBytes, string key, byte[] salt)
         {
             byte[] decryptedBytes = null;
 
@@ -45,21 +45,21 @@ namespace EAAS.Core.Factory
             return decryptedBytes;
         }
 
-        public string Decrypt(string cipherText, string key, byte[] rgbSalt)
+        public string Decrypt(string cipherText, string key, byte[] salt)
         {
             // Get the bytes of the string
             byte[] bytesToBeDecrypted = Convert.FromBase64String(cipherText);
             byte[] passwordBytes = Encoding.UTF8.GetBytes(key);
             passwordBytes = SHA256.Create().ComputeHash(passwordBytes);
 
-            byte[] bytesDecrypted = Decrypt(bytesToBeDecrypted, key, rgbSalt);
+            byte[] bytesDecrypted = Decrypt(bytesToBeDecrypted, key, salt);
 
             string result = Encoding.UTF8.GetString(bytesDecrypted);
 
             return result;
         }
 
-        public byte[] Encrypt(byte[] plainBytes, string key, byte[] rgbSalt)
+        public byte[] Encrypt(byte[] plainBytes, string key, byte[] salt)
         {
             byte[] encryptedBytes = null;
 
@@ -92,7 +92,7 @@ namespace EAAS.Core.Factory
             return encryptedBytes;
         }
 
-        public string Encrypt(string plainText, string key, byte[] rgbSalt)
+        public string Encrypt(string plainText, string key, byte[] salt)
         {
             // Get the bytes of the string
             byte[] bytesToBeEncrypted = Encoding.UTF8.GetBytes(plainText);
