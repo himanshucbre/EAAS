@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace EaaSAPI
 {
@@ -30,6 +31,15 @@ namespace EaaSAPI
         {
             //services.AddAuthentication(AzureADB2CDefaults.BearerAuthenticationScheme)
             //    .AddAzureADB2CBearer(options => Configuration.Bind("AzureAdB2C", options));
+
+
+            //services.AddOpenIddict<ApplicationDbContext>()
+            //    .AddMvcBinders()
+            //    .EnableTokenEndpoint("/connect/token")
+            //    .UseJsonWebTokens()
+            //    .AllowPasswordFlow()
+            //    .AddSigningCertificate(jwtSigningCert);
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSwaggerGen(c =>
             {

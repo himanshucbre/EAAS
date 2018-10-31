@@ -29,6 +29,10 @@ namespace EAAS.Core.Factory
                     return new AESEncryption();
                 case "aes256":
                     return new AES256Encryption();
+                case "fpean":
+                    return new FPEAlphanumeric();
+                case "fpen":
+                    return new FPENumeric();
                 default:                    
                     return null;
             }         
