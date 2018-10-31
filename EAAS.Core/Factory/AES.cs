@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.IO;
 
-namespace EAAS.Services.Factory
+namespace EAAS.Core.Factory
 {
     public class AESEncryption : ICryptoProviderFactory
     {

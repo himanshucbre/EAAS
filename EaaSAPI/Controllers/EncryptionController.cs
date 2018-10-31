@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EAAS.Services;
+using EAAS.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,22 +12,17 @@ namespace EaaSAPI.Controllers
     [ApiController]
     public class EncryptionController : ControllerBase
     {
-        [HttpGet("{encryptionType}/{plainText}/{strPassword}/{rgbSalt}")]
-        public string Encryptstring(string encryptionType, string plainText, string strPassword, byte[] rgbSalt)
-        {
-            if (rgbSalt == null)
-            {
-                //rgbSalt = this.Salt;
-            }
-            return new Encryption().Encrypt(encryptionType, plainText, strPassword, rgbSalt);
+        [HttpGet("{encryptionType}/{plainText}/{key}")]
+        public string Encryptstring(string encryptionType, string plainText, string key)
+        {           
+            return new Encryption().Encrypt(encryptionType, plainText, key);
         }
 
 
-        [HttpGet("{encryptionType}/{plainBytes}/{strPassword}/{rgbSalt}")]
-        //[Route("{encryptionType}/{plainBytes}/{strPassword}/{rgbSalt}")]
-        public byte[] EncryptBytes(string encryptionType, byte[] plainBytes, string strPassword, byte[] rgbSalt)
+        [HttpGet("{encryptionType}/{plainBytes}/{key}")]
+        public byte[] EncryptBytes(string encryptionType, byte[] plainBytes, string key )
         {
-            return new Encryption().Encrypt(encryptionType, plainBytes, strPassword, rgbSalt);
+            return new Encryption().Encrypt(encryptionType, plainBytes, key);
         }
 
         //// GET: api/Eaas

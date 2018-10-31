@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EAAS.Services;
+using EAAS.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,16 +12,16 @@ namespace EaaSAPI.Controllers
     [ApiController]
     public class DecryptionController : ControllerBase
     {
-        [HttpGet("{encryptionType}/{cipherText}/{strPassword}/{rgbSalt}")]
-        public string Decryptstring(string encryptionType, string cipherText, string strPassword, byte[] rgbSalt)
+        [HttpGet("{encryptionType}/{cipherText}/{key}/{rgbSalt}")]
+        public string Decryptstring(string encryptionType, string cipherText, string key)
         {
-            return new Decryption().Decrypt(encryptionType, cipherText, strPassword, rgbSalt);
+            return new Decryption().Decrypt(encryptionType, cipherText, key);
         }
 
-        [HttpGet("{encryptionType}/{cipherBytes}/{strPassword}/{rgbSalt}")]
-        public byte[] DecryptBytes(string encryptionType, byte[] cipherBytes, string strPassword, byte[] rgbSalt)
+        [HttpGet("{encryptionType}/{cipherBytes}/{key}/{rgbSalt}")]
+        public byte[] DecryptBytes(string encryptionType, byte[] cipherBytes, string key)
         {
-            return new Decryption().Decrypt(encryptionType, cipherBytes, strPassword, rgbSalt);
+            return new Decryption().Decrypt(encryptionType, cipherBytes, key);
         }
 
     }

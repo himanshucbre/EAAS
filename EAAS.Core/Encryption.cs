@@ -1,9 +1,9 @@
-﻿using EAAS.Services.Factory;
+﻿using EAAS.Core.Factory;
 using System;
 
 using System.Security.Cryptography;
 
-namespace EAAS.Services
+namespace EAAS.Core
 {
     public class Encryption : IEncryption
     {

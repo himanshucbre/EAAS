@@ -26,35 +26,35 @@ namespace EAAS.Controllers
 
         // GET: api/Encryption/
         [HttpGet]
-        //[Route("{encryptionType}/{plainText}/{strPassword}/{rgbSalt}")]
-        public string Encryptstring(string encryptionType, string plainText, string strPassword , byte[] rgbSalt )
+        //[Route("{encryptionType}/{plainText}/{key}/{rgbSalt}")]
+        public string Encryptstring(string encryptionType, string plainText, string key , byte[] rgbSalt )
         {  
             if(rgbSalt == null)
             {
                 rgbSalt = this.Salt;
             }
-           return new Encryption().Encrypt(encryptionType, plainText, strPassword, rgbSalt);
+           return new Encryption().Encrypt(encryptionType, plainText, key, rgbSalt);
         }
 
         [HttpGet]
-        //[Route("{encryptionType}/{plainBytes}/{strPassword}/{rgbSalt}")]
-        public byte[] EncryptBytes(string encryptionType, byte[] plainBytes, string strPassword , byte[] rgbSalt )
+        //[Route("{encryptionType}/{plainBytes}/{key}/{rgbSalt}")]
+        public byte[] EncryptBytes(string encryptionType, byte[] plainBytes, string key , byte[] rgbSalt )
         {
-            return new Encryption().Encrypt(encryptionType, plainBytes, strPassword, rgbSalt);
+            return new Encryption().Encrypt(encryptionType, plainBytes, key, rgbSalt);
         }
 
         [HttpGet]
-        //[Route("{encryptionType}/{plainText}/{strPassword}/{rgbSalt}")]
-        public string Decryptstring(string encryptionType, string cipherText, string strPassword , byte[] rgbSalt )
+        //[Route("{encryptionType}/{plainText}/{key}/{rgbSalt}")]
+        public string Decryptstring(string encryptionType, string cipherText, string key , byte[] rgbSalt )
         {
-            return new Decryption().Decrypt(encryptionType, cipherText, strPassword, rgbSalt);
+            return new Decryption().Decrypt(encryptionType, cipherText, key, rgbSalt);
         }
 
         [HttpGet]
-        //[Route("{encryptionType}/{plainText}/{strPassword}/{rgbSalt}")]
-        public byte[] DecryptBytes(string encryptionType, byte[] cipherBytes, string strPassword , byte[] rgbSalt )
+        //[Route("{encryptionType}/{plainText}/{key}/{rgbSalt}")]
+        public byte[] DecryptBytes(string encryptionType, byte[] cipherBytes, string key , byte[] rgbSalt )
         {
-            return new Decryption().Decrypt(encryptionType, cipherBytes, strPassword, rgbSalt);
+            return new Decryption().Decrypt(encryptionType, cipherBytes, key, rgbSalt);
         }
     }
 }

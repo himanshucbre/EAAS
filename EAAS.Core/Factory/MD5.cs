@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EAAS.Services.Factory
+namespace EAAS.Core.Factory
 {
     public class MD5Encryption : ICryptoProviderFactory
     {

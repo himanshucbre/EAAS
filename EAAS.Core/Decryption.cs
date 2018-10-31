@@ -1,11 +1,11 @@
-﻿using EAAS.Services.Factory;
+﻿using EAAS.Core.Factory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EAAS.Services
+namespace EAAS.Core
 {
     public class Decryption : IDecryption
     {

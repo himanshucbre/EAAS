@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Security.Cryptography;
 
-namespace EAAS.Services.Factory
+namespace EAAS.Core.Factory
 {
     
     public class TripleDESEncryption : ICryptoProviderFactory
