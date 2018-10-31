@@ -38,7 +38,7 @@ namespace EAAS.Models
             Cmd.CommandType = CommandType.StoredProcedure;
             foreach (KeyValuePair<string, object> KVP in Dic)
             {
-                Cmd.Parameters.AddWithValue(KVP.Key, KVP.Value.ToString());
+                Cmd.Parameters.AddWithValue(KVP.Key, Convert.ToString(KVP.Value));
             }
             da = new SqlDataAdapter(Cmd);
             da.Fill(Dt);
