@@ -5,6 +5,7 @@ using System.Web;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Text;
 namespace EAAS.Models
 {
     public class DBConnectivity
@@ -36,8 +37,9 @@ namespace EAAS.Models
             Cmd.CommandType = CommandType.StoredProcedure;
             foreach (KeyValuePair<string, object> KVP in Dic)
             {
-                SqlParameter param = new SqlParameter(KVP.Key, KVP.Value);
-                Cmd.Parameters.Add(param);
+                //SqlParameter param = new SqlParameter(KVP.Key, KVP.Value);
+                Cmd.Parameters.AddWithValue(KVP.Key, KVP.Value.ToString());
+               // Cmd.Parameters.Add(param);
             }
             da = new SqlDataAdapter(Cmd);
             da.Fill(Dt);
