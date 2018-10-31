@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using System.Text;
+using System.Data.SqlClient;
 namespace EAAS.Models
 {
     public class BusinessLogic
@@ -103,12 +104,71 @@ namespace EAAS.Models
             }
         }
 
-        public string AppRegistration(string UserId,string AppId,string AppName, List<EncryptionKeyValue> AppEncryptionKey, List<string> Urls)
+        //public string AppRegistration(string UserId,string AppId,string AppName, List<EncryptionKeyValue> AppEncryptionKey, List<string> Urls)
+        //{
+        //    string Result = "";
+        //    try
+        //    {
+        //        DataTable dt = new DataTable();
+        //        Dictionary<string, object> Dic = new Dictionary<string, object>();
+        //        StringBuilder sbUrl = new StringBuilder();
+        //        foreach (string list in Urls)
+        //        {
+        //            sbUrl.Append(list + ";");
+        //        }
+        //        if (sbUrl.Length != 0)
+        //        {
+        //            sbUrl.Remove(sbUrl.Length - 1, 1);
+        //        }
+        //        StringBuilder XMLencryptionKey = new StringBuilder();
+        //        XMLencryptionKey.Append("<Keys>");
+        //        foreach (var EK in AppEncryptionKey)
+        //        {                                        
+        //            XMLencryptionKey.Append("<Key>");
+        //            XMLencryptionKey.Append("<EncryptionType>" + EK.EncryptionType+ "</EncryptionType>");
+        //            XMLencryptionKey.Append("<EncryptionKey>" + EK.EncryptionKey + "</EncryptionKey>");
+        //            XMLencryptionKey.Append("<EncryptionSalt>" + EK.EncryptionSalt + "</EncryptionSalt></Key>");
+        //        }
+        //        XMLencryptionKey.Append("</Keys>");
+        //        string XMLData = XMLencryptionKey.ToString();
+        //        Dic.Add("@AppId", AppId);
+        //        Dic.Add("@AppName", AppName);
+        //        Dic.Add("@UserId", UserId);
+        //        Dic.Add("@Urls", sbUrl);               
+        //        Dic.Add("@AppEncryptionKey", XMLData);
+        //        dt = DBObj.GetTableData(Dic, "SP_AppRegistration");
+        //        if (dt != null && dt.Rows.Count > 0)
+        //        {
+        //            Result = dt.Rows[0]["Code"].ToString(); ;
+        //        }
+        //        return Result;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Result;
+        //    }
+        //}
+
+        public string AppRegistration(string UserId, string AppId, string AppName, List<EncryptionKeyValue> EncryptionList, List<string> Urls)
         {
             string Result = "";
             try
             {
-                DataTable dt = new DataTable();
+                DataTable encryptiontable = new DataTable();
+                encryptiontable.Columns.Add("AppId", typeof(int));
+                encryptiontable.Columns.Add("EncryptionType", typeof(string));
+                encryptiontable.Columns.Add("EncryptionKey", typeof(string));
+                encryptiontable.Columns.Add("EncryptionSalt", typeof(string));
+                foreach(var li in EncryptionList)
+                {
+                    DataRow Dr = encryptiontable.NewRow();
+                    Dr["AppId"] = Convert.ToInt16(AppId);
+                    Dr["EncryptionKey"] = li.EncryptionKey;
+                    Dr["EncryptionSalt"] = li.EncryptionSalt;
+                    Dr["EncryptionType"] = li.EncryptionType;
+                    encryptiontable.Rows.Add(Dr);
+                }               
+                
                 Dictionary<string, object> Dic = new Dictionary<string, object>();
                 StringBuilder sbUrl = new StringBuilder();
                 foreach (string list in Urls)
@@ -119,23 +179,32 @@ namespace EAAS.Models
                 {
                     sbUrl.Remove(sbUrl.Length - 1, 1);
                 }
-                StringBuilder XMLencryptionKey = new StringBuilder();
-                XMLencryptionKey.Append("<Keys>");
-                foreach (var EK in AppEncryptionKey)
-                {                                        
-                    XMLencryptionKey.Append("<Key>");
-                    XMLencryptionKey.Append("<EncryptionType>" + EK.EncryptionType+ "</EncryptionType>");
-                    XMLencryptionKey.Append("<EncryptionKey>" + EK.EncryptionKey + "</EncryptionKey>");
-                    XMLencryptionKey.Append("<EncryptionSalt>" + EK.EncryptionSalt + "</EncryptionSalt></Key>");
-                }
-                XMLencryptionKey.Append("</Keys>");
-                string XMLData = XMLencryptionKey.ToString();
-                Dic.Add("@AppId", AppId);
-                Dic.Add("@AppName", AppName);
-                Dic.Add("@UserId", UserId);
-                Dic.Add("@Urls", sbUrl);               
-                Dic.Add("@AppEncryptionKey", XMLData);
-                dt = DBObj.GetTableData(Dic, "SP_AppRegistration");
+                var parameters = new[]
+                {
+                    new SqlParameter("@AppEncryptionKey", SqlDbType.Structured)
+                    {
+                        TypeName = "dbo.[type_EncryptionKeyValue1]",
+                        Value = encryptiontable
+                    },
+                    new SqlParameter("@AppId", SqlDbType.Int)
+                    {
+                        Value = AppId
+                    },
+                     new SqlParameter("@UserId", SqlDbType.VarChar)
+                    {
+                        Value = UserId
+                    },
+                     new SqlParameter("@AppName", SqlDbType.VarChar)
+                    {
+                        Value = AppName
+                    },
+                     new SqlParameter("@Urls", SqlDbType.VarChar)
+                    {
+                        Value = sbUrl.ToString()
+                    }
+                };
+                DataTable dt = new DataTable();
+                dt = DBObj.GetTableData(parameters, "SP_AppRegistration");
                 if (dt != null && dt.Rows.Count > 0)
                 {
                     Result = dt.Rows[0]["Code"].ToString(); ;
@@ -147,6 +216,7 @@ namespace EAAS.Models
                 return Result;
             }
         }
+
 
         public AppRegistration GetAppDetails(string AppKey, string AppSecret)
         {

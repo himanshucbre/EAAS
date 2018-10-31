@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -14,6 +15,16 @@ namespace EAAS.Models
 
        public  List<EncryptionKeyValue> AppEncryptionKey { get; set; }
     }
+
+    //public class AppRegistration1
+    //{
+    //    public string AppId { get; set; }
+    //    public string UserId { get; set; }
+    //    public string AppName { get; set; }
+    //    public List<string> Urls { get; set; }
+
+    //    public List<EncryptionKeyValue> AppEncryptionKey { get; set; }
+    //}
 
     public class EncryptionKeyValue
     {

@@ -32,6 +32,26 @@ namespace EAAS.Controllers
             }
         }
 
+        //[Route("api/AppRegistration"), HttpPost]
+        //public HttpResponseMessage AppRegistration(AppRegistration Appreg)
+        //{
+        //    string Result = "";
+        //    try
+        //    {
+
+        //        Result = ObjBl.AppRegistration(Appreg.UserId,Appreg.AppId,Appreg.AppName, Appreg.AppEncryptionKey,Appreg.Urls);
+        //        return PrepareResponse(Result, "", "AppRegistration");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return PrepareResponse(Result, ex.Message, "AppRegistration");
+        //    }
+        //    finally
+        //    {
+        //        Result = "";
+        //    }
+        //}
+
         [Route("api/AppRegistration"), HttpPost]
         public HttpResponseMessage AppRegistration(AppRegistration Appreg)
         {
@@ -39,7 +59,7 @@ namespace EAAS.Controllers
             try
             {
 
-                Result = ObjBl.AppRegistration(Appreg.UserId,Appreg.AppId,Appreg.AppName, Appreg.AppEncryptionKey,Appreg.Urls);
+                Result = ObjBl.AppRegistration(Appreg.UserId, Appreg.AppId, Appreg.AppName, Appreg.AppEncryptionKey, Appreg.Urls);
                 return PrepareResponse(Result, "", "AppRegistration");
             }
             catch (Exception ex)
