@@ -11,7 +11,6 @@ namespace EAAS.Core.Factory
 {
     public class DESEncryption : ICryptoProviderFactory
     {
-        private static byte[] SALT = { 34, 65, 11, 12, 16, 0, 65, 128, 92, 72, 65, 23, 87, 11, 10, 8 };
         private enum CryptProc { ENCRYPT, DECRYPT };
         public string Encrypt(string plainText, string key, byte[] salt)
         {

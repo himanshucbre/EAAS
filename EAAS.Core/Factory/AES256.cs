@@ -15,11 +15,7 @@ namespace EAAS.Core.Factory
         public byte[] Decrypt(byte[] cipherBytes, string key, byte[] salt)
         {
             byte[] decryptedBytes = null;
-
-            // Set your salt here, change it to meet your flavor:
-            // The salt bytes must be at least 8 bytes.
-            byte[] saltBytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
-
+            
             using (MemoryStream ms = new MemoryStream())
             {
                 using (RijndaelManaged AES = new RijndaelManaged())
@@ -27,7 +23,7 @@ namespace EAAS.Core.Factory
                     AES.KeySize = 256;
                     AES.BlockSize = 128;
 
-                    var keyGen = new Rfc2898DeriveBytes(key, saltBytes, 1000);
+                    var keyGen = new Rfc2898DeriveBytes(key, salt);
                     AES.Key = keyGen.GetBytes(AES.KeySize / 8);
                     AES.IV = keyGen.GetBytes(AES.BlockSize / 8);
 
@@ -63,9 +59,6 @@ namespace EAAS.Core.Factory
         {
             byte[] encryptedBytes = null;
 
-            // Set your salt here, change it to meet your flavor:
-            // The salt bytes must be at least 8 bytes.
-            byte[] saltBytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
 
             using (MemoryStream ms = new MemoryStream())
             {
@@ -74,7 +67,7 @@ namespace EAAS.Core.Factory
                     AES.KeySize = 256;
                     AES.BlockSize = 128;
 
-                    var keyGen = new Rfc2898DeriveBytes(key, saltBytes, 1000);
+                    var keyGen = new Rfc2898DeriveBytes(key,salt);
                     AES.Key = keyGen.GetBytes(AES.KeySize / 8);
                     AES.IV = keyGen.GetBytes(AES.BlockSize / 8);
 
