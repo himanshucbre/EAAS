@@ -17,7 +17,7 @@ namespace EAAS.Models
         DataSet Ds;
         public void OpenConnection()
         {
-            string ConStr = System.Configuration.ConfigurationSettings.AppSettings["DBConnection"].ToString();
+            string ConStr = "Data Source=eaas.database.windows.net,1433;User id=eaascbre;Initial catalog=EAAS;password=Cbre@123;";// System.Configuration.ConfigurationSettings.AppSettings["DBConnection"].ToString();
             Con = new SqlConnection(ConStr);
             if (Con.State == ConnectionState.Closed)
             {
@@ -37,9 +37,7 @@ namespace EAAS.Models
             Cmd.CommandType = CommandType.StoredProcedure;
             foreach (KeyValuePair<string, object> KVP in Dic)
             {
-                //SqlParameter param = new SqlParameter(KVP.Key, KVP.Value);
                 Cmd.Parameters.AddWithValue(KVP.Key, KVP.Value.ToString());
-               // Cmd.Parameters.Add(param);
             }
             da = new SqlDataAdapter(Cmd);
             da.Fill(Dt);

@@ -39,11 +39,11 @@ namespace EaaSAPI
             //    .UseJsonWebTokens()
             //    .AllowPasswordFlow()
             //    .AddSigningCertificate(jwtSigningCert);
-
+            services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "EAAS", Version = "v1" });
             });
         }
 
@@ -60,6 +60,11 @@ namespace EaaSAPI
             }
 
             app.UseHttpsRedirection();
+            app.UseCors(
+            options => options.AllowAnyOrigin().AllowAnyHeader()
+                                               .AllowAnyMethod()
+                                               .AllowCredentials()
+        );
             //app.UseAuthentication();
             app.UseMvc();
             app.UseSwagger();
