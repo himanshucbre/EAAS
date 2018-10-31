@@ -11,9 +11,9 @@ namespace EAAS.Models
         public string AppId { get; set; }
         public string UserId { get; set; }
         public string AppName { get; set; }
-        public List<string> Urls { get; set; }    
+        public List<string> Urls { get; set; }
 
-       public  List<EncryptionKeyValue> AppEncryptionKey { get; set; }
+        public List<EncryptionKeyValue> AppEncryptionKey { get; set; } = null;
     }
 
     //public class AppRegistration1
@@ -35,12 +35,13 @@ namespace EAAS.Models
 
     public class AppDetails
     {
-       public List<UserAppinfo> AppInfo { get; set; }
+        public List<UserAppinfo> AppInfo { get; set; }
     }
     public class UserAppinfo
     {
         public string UserId { get; set; }
-        public string AppName { get; set; }       
+        public string AppId { get; set; }
+        public string AppName { get; set; }
         public string AppKey { get; set; }
         public string AppSecret { get; set; }
         public List<string> Urls { get; set; }

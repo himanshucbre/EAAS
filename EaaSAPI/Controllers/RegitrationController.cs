@@ -47,9 +47,7 @@ namespace EaaSAPI.Controllers
         [Route("api/GetUserApps"), HttpGet]
         public IActionResult GetUserApps(string UserId, string AppId)
         {
-            AppDetails ObjAppreg = null;
-             ObjAppreg = new AppDetails();
-                ObjAppreg = ObjBl.GetUserApps(UserId, AppId);
+                var ObjAppreg = ObjBl.GetUserApps(UserId, AppId);
                 return Ok(ObjAppreg);            
         }
 

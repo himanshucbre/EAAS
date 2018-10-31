@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,7 +17,7 @@ namespace EAAS.Models
             try
             {
                 ObjUserReg = new UserRegistration();
-                DataTable dt = new DataTable();                
+                DataTable dt = new DataTable();
                 Dictionary<string, object> Dic = new Dictionary<string, object>();
                 Dic.Add("@EmailId", EmailId);
                 Dic.Add("@Password", Password);
@@ -56,7 +57,7 @@ namespace EAAS.Models
                     ObjUser.FirstName = dt.Rows[0]["FirstName"].ToString();
                     ObjUser.LastName = dt.Rows[0]["LastName"].ToString();
                     ObjUser.Code = dt.Rows[0]["Code"].ToString();
-                    ObjUser.Password= dt.Rows[0]["Password"].ToString();
+                    ObjUser.Password = dt.Rows[0]["Password"].ToString();
                 }
                 return ObjUser;
             }
@@ -66,13 +67,11 @@ namespace EAAS.Models
             }
         }
 
-        public AppDetails GetUserApps(string UserId, string AppId)
+        public List<UserAppinfo> GetUserApps(string UserId, string AppId)
         {
-            AppDetails appdtls = null;
-
+            List<UserAppinfo> userappinfo = new List<UserAppinfo>();
             try
             {
-                appdtls = new AppDetails();
                 DataTable dt = new DataTable();
                 Dictionary<string, object> Dic = new Dictionary<string, object>();
                 Dic.Add("@UserId", UserId);
@@ -80,12 +79,12 @@ namespace EAAS.Models
                 dt = DBObj.GetTableData(Dic, "SP_GetUserApplications");
                 if (dt != null && dt.Rows.Count > 0)
                 {
-                    List<UserAppinfo> userappinfo = new List<UserAppinfo>();
                     foreach (DataRow dr in dt.Rows)
-                    {                    
+                    {
 
                         UserAppinfo UAI = new UserAppinfo();
                         UAI.AppName = dr["AppName"].ToString();
+                        UAI.AppId = dr["AppId"].ToString();
                         UAI.UserId = dr["UserId"].ToString();
                         UAI.AppKey = dr["AppKey"].ToString();
                         UAI.AppSecret = dr["AppSecret"].ToString();
@@ -93,18 +92,17 @@ namespace EAAS.Models
                         UAI.Urls = UrlList;
                         userappinfo.Add(UAI);
                     }
-                    appdtls.AppInfo = userappinfo;
 
                 }
-                return appdtls;
+                return userappinfo;
             }
             catch (Exception ex)
             {
-                return appdtls;
+                return userappinfo;
             }
         }
 
-        
+
 
         public string AppRegistration(string UserId, string AppId, string AppName, List<EncryptionKeyValue> EncryptionList, List<string> Urls)
         {
@@ -116,7 +114,18 @@ namespace EAAS.Models
                 encryptiontable.Columns.Add("EncryptionType", typeof(string));
                 encryptiontable.Columns.Add("EncryptionKey", typeof(string));
                 encryptiontable.Columns.Add("EncryptionSalt", typeof(string));
-                foreach(var li in EncryptionList)
+                if (string.IsNullOrEmpty(AppId))
+                {
+                    EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "md5", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = Guid.NewGuid().ToString().Replace("-", string.Empty) });
+                    EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "rijndael", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = Guid.NewGuid().ToString().Replace("-", string.Empty) });
+                    EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "des", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = Guid.NewGuid().ToString().Replace("-", string.Empty) });
+                    EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "tripledes", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = Guid.NewGuid().ToString().Replace("-", string.Empty) });
+                    EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "aes", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = Guid.NewGuid().ToString().Replace("-", string.Empty) });
+                    EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "aes256",EncryptionKey =   Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = Guid.NewGuid().ToString().Replace("-", string.Empty) });
+                    EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "fpean", EncryptionKey =  Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = null});
+                    EncryptionList.Add(new EncryptionKeyValue { EncryptionType =  "fpen", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = Guid.NewGuid().ToString().Replace("-", string.Empty) });
+                }
+                foreach (var li in EncryptionList)
                 {
                     DataRow Dr = encryptiontable.NewRow();
                     Dr["AppId"] = Convert.ToInt16(AppId);
@@ -124,8 +133,8 @@ namespace EAAS.Models
                     Dr["EncryptionSalt"] = li.EncryptionSalt;
                     Dr["EncryptionType"] = li.EncryptionType;
                     encryptiontable.Rows.Add(Dr);
-                }               
-                
+                }
+
                 Dictionary<string, object> Dic = new Dictionary<string, object>();
                 StringBuilder sbUrl = new StringBuilder();
                 foreach (string list in Urls)
@@ -188,7 +197,7 @@ namespace EAAS.Models
                 ds = DBObj.GetDataSet(Dic, "SP_GetAppDetails");
                 if (ds != null)
                 {
-                    
+
                     DataTable AppDetails = new DataTable();
                     DataTable KeyDetails = new DataTable();
                     AppDetails = ds.Tables[0];
@@ -199,7 +208,7 @@ namespace EAAS.Models
                         Appreg.UserId = AppDetails.Rows[0]["UserId"].ToString();
                         List<string> UrlList = AppDetails.Rows[0]["Urls"].ToString().Split(';').ToList<string>();
                         Appreg.Urls = UrlList;
-                        Appreg.AppId= AppDetails.Rows[0]["AppId"].ToString();
+                        Appreg.AppId = AppDetails.Rows[0]["AppId"].ToString();
                         List<EncryptionKeyValue> LIEKV = new List<EncryptionKeyValue>();
                         foreach (DataRow dr in KeyDetails.Rows)
                         {
@@ -219,9 +228,9 @@ namespace EAAS.Models
                 return Appreg;
             }
         }
-        
-       
 
-      
+
+
+
     }
 }
