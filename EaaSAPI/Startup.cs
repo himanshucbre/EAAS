@@ -63,8 +63,7 @@ namespace EaaSAPI
             app.UseCors(
             options => options.AllowAnyOrigin().AllowAnyHeader()
                                                .AllowAnyMethod()
-                                               .AllowCredentials()
-        );
+                                               .AllowCredentials());
             //app.UseAuthentication();
             app.UseMvc();
             app.UseSwagger();

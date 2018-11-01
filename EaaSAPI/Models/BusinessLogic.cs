@@ -121,14 +121,14 @@ namespace EAAS.Models
                     EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "des", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = Guid.NewGuid().ToString().Replace("-", string.Empty) });
                     EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "tripledes", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = Guid.NewGuid().ToString().Replace("-", string.Empty) });
                     EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "aes", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = Guid.NewGuid().ToString().Replace("-", string.Empty) });
-                    EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "aes256",EncryptionKey =   Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = Guid.NewGuid().ToString().Replace("-", string.Empty) });
-                    EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "fpean", EncryptionKey =  Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = null});
-                    EncryptionList.Add(new EncryptionKeyValue { EncryptionType =  "fpen", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = Guid.NewGuid().ToString().Replace("-", string.Empty) });
+                    EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "aes256", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = Guid.NewGuid().ToString().Replace("-", string.Empty) });
+                    EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "fpean", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = null });
+                    EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "fpen", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = Guid.NewGuid().ToString().Replace("-", string.Empty) });
                 }
                 foreach (var li in EncryptionList)
                 {
                     DataRow Dr = encryptiontable.NewRow();
-                    Dr["AppId"] = Convert.ToInt16(AppId);
+                    Dr["AppId"] = 0;
                     Dr["EncryptionKey"] = li.EncryptionKey;
                     Dr["EncryptionSalt"] = li.EncryptionSalt;
                     Dr["EncryptionType"] = li.EncryptionType;
@@ -145,6 +145,8 @@ namespace EAAS.Models
                 {
                     sbUrl.Remove(sbUrl.Length - 1, 1);
                 }
+                int.TryParse(UserId, out var inputUserId);
+                int.TryParse(AppId, out var inputAppId);
                 var parameters = new[]
                 {
                     new SqlParameter("@AppEncryptionKey", SqlDbType.Structured)
@@ -154,11 +156,11 @@ namespace EAAS.Models
                     },
                     new SqlParameter("@AppId", SqlDbType.Int)
                     {
-                        Value = AppId
+                        Value = inputAppId
                     },
-                     new SqlParameter("@UserId", SqlDbType.VarChar)
+                     new SqlParameter("@UserId", SqlDbType.Int)
                     {
-                        Value = UserId
+                        Value = inputUserId
                     },
                      new SqlParameter("@AppName", SqlDbType.VarChar)
                     {
