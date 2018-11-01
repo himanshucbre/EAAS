@@ -66,12 +66,12 @@ namespace EAAS.Core
                                 switch (mode)
                                 {
                                     case Mode.Encrypt://Increment Columns
-                                        newC1 = (int.Parse(rc1[1].ToString()) + 1) % 5;
-                                        newC2 = (int.Parse(rc2[1].ToString()) + 1) % 5;
+                                        newC1 = (int.Parse(rc1[1].ToString()) + 1) % 6;
+                                        newC2 = (int.Parse(rc2[1].ToString()) + 1) % 6;
                                         break;
                                     case Mode.Decrypt://Decrement Columns
-                                        newC1 = (int.Parse(rc1[1].ToString()) - 1) % 5;
-                                        newC2 = (int.Parse(rc2[1].ToString()) - 1) % 5;
+                                        newC1 = (int.Parse(rc1[1].ToString()) - 1) % 6;
+                                        newC2 = (int.Parse(rc2[1].ToString()) - 1) % 6;
                                         break;
                                 }
 
@@ -89,12 +89,12 @@ namespace EAAS.Core
                                 switch (mode)
                                 {
                                     case Mode.Encrypt://Increment Rows
-                                        newR1 = (int.Parse(rc1[0].ToString()) + 1) % 5;
-                                        newR2 = (int.Parse(rc2[0].ToString()) + 1) % 5;
+                                        newR1 = (int.Parse(rc1[0].ToString()) + 1) % 6;
+                                        newR2 = (int.Parse(rc2[0].ToString()) + 1) % 6;
                                         break;
                                     case Mode.Decrypt://Decrement Rows
-                                        newR1 = (int.Parse(rc1[0].ToString()) - 1) % 5;
-                                        newR2 = (int.Parse(rc2[0].ToString()) - 1) % 5;
+                                        newR1 = (int.Parse(rc1[0].ToString()) - 1) % 6;
+                                        newR2 = (int.Parse(rc2[0].ToString()) - 1) % 6;
                                         break;
                                 }
                                 newR1 = RepairNegative(newR1);
@@ -175,7 +175,7 @@ namespace EAAS.Core
         {
             if (number < 0)
             {
-                number += 5;
+                number += 6;
             }
 
             return number;
