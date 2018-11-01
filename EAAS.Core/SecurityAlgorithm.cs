@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace EAAS.Core
 {
     public class SecurityAlgorithm
     {
-        protected readonly Dictionary<char, int> alphabet;
-        protected readonly Dictionary<char, int> caesarAlphabet;
+        public readonly Dictionary<char, int> alphabet;
+        public  Dictionary<char, int> caesarAlphabet;
         public SecurityAlgorithm()
         {
             caesarAlphabet = new Dictionary<char, int>();

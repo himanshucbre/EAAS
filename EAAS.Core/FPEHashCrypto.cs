@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace EAAS.Core
 {
@@ -16,8 +14,9 @@ namespace EAAS.Core
             this.key = key;
         }
 
-        public string Process(string message, string key, Mode mode)
+        public string Process(string message, string key, Mode mode, Dictionary<char, int>  ceaserKey)
         {
+            caesarAlphabet = ceaserKey;
             //Key:Charcater
             //Value:Position
             Dictionary<char, string> characterPositionsInMatrix = new Dictionary<char, string>();
@@ -25,6 +24,8 @@ namespace EAAS.Core
             //Key:Position
             //Value:Charcater
             Dictionary<string, char> positionCharacterInMatrix = new Dictionary<string, char>();
+
+            
 
             FillMatrix(key.Distinct().ToArray(), characterPositionsInMatrix, positionCharacterInMatrix);
 

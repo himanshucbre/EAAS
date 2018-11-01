@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EAAS.Core.Factory
 {
@@ -11,13 +9,18 @@ namespace EAAS.Core.Factory
         public string Encrypt(string plainText, string strPassword, byte[] salt)
         {
             FPEHashCrypto fpeHashCrypto = new FPEHashCrypto(strPassword);
-            return fpeHashCrypto.Process(plainText, strPassword, Mode.Encrypt);
+            var ceaserKey = System.Text.Encoding.ASCII.GetString(salt);
+            var ceaserKeyDictionary = JsonConvert.DeserializeObject<Dictionary<char, int>>(ceaserKey);
+            return fpeHashCrypto.Process(plainText, strPassword, Mode.Encrypt, ceaserKeyDictionary);
         }
 
         public string Decrypt(string cipherText, string strPassword, byte[] salt)
         {
             FPEHashCrypto fpeHashCrypto = new FPEHashCrypto(strPassword);
-            return fpeHashCrypto.Process(cipherText, strPassword, Mode.Decrypt);
+
+            var ceaserKey = System.Text.Encoding.ASCII.GetString(salt);
+            var ceaserKeyDictionary = JsonConvert.DeserializeObject<Dictionary<char, int>>(ceaserKey);
+            return fpeHashCrypto.Process(cipherText, strPassword, Mode.Decrypt, ceaserKeyDictionary);
         }
 
         public byte[] Decrypt(byte[] cipherBytes, string strPassword, byte[] salt)

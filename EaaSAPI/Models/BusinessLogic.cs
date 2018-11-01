@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections;
+﻿using EAAS.Core;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Data;
-using System.Text;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+
 namespace EAAS.Models
 {
     public class BusinessLogic
     {
-        DBConnectivity DBObj = new DBConnectivity();
+        private DBConnectivity DBObj = new DBConnectivity();
         public UserRegistration UserRegistration(string EmailId, string Password, string FirstName, string LastName)
         {
             UserRegistration ObjUserReg = null;
@@ -109,6 +110,7 @@ namespace EAAS.Models
             AppRegistration appReg = new AppRegistration();
             try
             {
+                var algo = new SecurityAlgorithm();
                 DataTable encryptiontable = new DataTable();
                 encryptiontable.Columns.Add("AppId", typeof(int));
                 encryptiontable.Columns.Add("EncryptionType", typeof(string));
@@ -122,7 +124,7 @@ namespace EAAS.Models
                     EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "tripledes", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = Guid.NewGuid().ToString().Replace("-", string.Empty) });
                     EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "aes", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = Guid.NewGuid().ToString().Replace("-", string.Empty) });
                     EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "aes256", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = Guid.NewGuid().ToString().Replace("-", string.Empty) });
-                    EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "fpean", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = null });
+                    EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "fpean", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = JsonConvert.SerializeObject(algo.caesarAlphabet) });
                     EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "fpen", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = Guid.NewGuid().ToString().Replace("-", string.Empty) });
                 }
                 foreach (var li in EncryptionList)
