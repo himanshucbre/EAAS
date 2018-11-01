@@ -124,7 +124,7 @@ namespace EAAS.Models
                     EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "tripledes", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = Guid.NewGuid().ToString().Replace("-", string.Empty) });
                     EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "aes", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = Guid.NewGuid().ToString().Replace("-", string.Empty) });
                     EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "aes256", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = Guid.NewGuid().ToString().Replace("-", string.Empty) });
-                    EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "fpean", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = JsonConvert.SerializeObject(algo.caesarAlphabet) });
+                    EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "fpean", EncryptionKey = Guid.NewGuid().ToString().ToLower().Replace("-", string.Empty), EncryptionSalt = JsonConvert.SerializeObject(algo.caesarAlphabet) });
                     EncryptionList.Add(new EncryptionKeyValue { EncryptionType = "fpen", EncryptionKey = Guid.NewGuid().ToString().Replace("-", string.Empty), EncryptionSalt = Guid.NewGuid().ToString().Replace("-", string.Empty) });
                 }
                 foreach (var li in EncryptionList)
