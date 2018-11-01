@@ -15,7 +15,7 @@ namespace EaaSAPI.Controllers
     [ApiController]
     public class DecryptionController : BaseController
     {
-        [HttpGet("{encryptionType}/{cipherText}/{key}")]
+        [HttpGet("text/{encryptionType}/{cipherText}/{key}")]
         public IActionResult Decryptstring(string encryptionType, string cipherText, string key)
         {
             if (string.IsNullOrEmpty(this.appKey) || string.IsNullOrEmpty(this.appSecret))
@@ -31,7 +31,7 @@ namespace EaaSAPI.Controllers
             return Ok( new Decryption().Decrypt(encryptionType, cipherText, key,salt));
         }
 
-        [HttpGet("{encryptionType}/{cipherBytes}/{key}")]
+        [HttpGet("bytes/{encryptionType}/{cipherBytes}/{key}")]
         public IActionResult DecryptBytes(string encryptionType, byte[] cipherBytes, string key)
         {
 

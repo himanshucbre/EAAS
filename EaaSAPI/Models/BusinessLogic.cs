@@ -104,9 +104,9 @@ namespace EAAS.Models
 
 
 
-        public string AppRegistration(string UserId, string AppId, string AppName, List<EncryptionKeyValue> EncryptionList, List<string> Urls)
+        public AppRegistration AppRegistration(string UserId, string AppId, string AppName, List<EncryptionKeyValue> EncryptionList, List<string> Urls)
         {
-            string Result = "";
+            AppRegistration appReg = new AppRegistration();
             try
             {
                 DataTable encryptiontable = new DataTable();
@@ -175,13 +175,21 @@ namespace EAAS.Models
                 dt = DBObj.GetTableData(parameters, "SP_AppRegistration");
                 if (dt != null && dt.Rows.Count > 0)
                 {
-                    Result = dt.Rows[0]["Code"].ToString(); ;
+                    appReg.AppId = Convert.ToString(dt.Rows[0]["AppId"]);
+                    appReg.UserId = Convert.ToString(dt.Rows[0]["UserId"]);
+                    appReg.AppName = Convert.ToString(dt.Rows[0]["AppName"]);
+                    appReg.AppKey = Convert.ToString(dt.Rows[0]["AppKey"]);
+                    appReg.AppSecret = Convert.ToString(dt.Rows[0]["AppSecret"]);
+                    appReg.Code = Convert.ToInt32(dt.Rows[0]["Code"]);
+                    List<string> UrlList = dt.Rows[0]["Urls"].ToString().Split(';').ToList<string>();
+                    appReg.Urls = UrlList;
                 }
-                return Result;
+                return appReg;
             }
             catch (Exception ex)
             {
-                return Result;
+                appReg.Code = 400;
+                return appReg;
             }
         }
 

@@ -51,7 +51,7 @@ namespace EaaSAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Encrypt([FromBody] List<RequestModel> model)
+        public IActionResult EncryptText([FromBody] List<RequestModel> model)
         {
             var result =new List<string>();
 
@@ -73,12 +73,34 @@ namespace EaaSAPI.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        public IActionResult EncryptByte([FromBody] List<RequestModel> model)
+        {
+            var result = new List<byte[]>();
 
-         
+            if (string.IsNullOrEmpty(this.appKey) || string.IsNullOrEmpty(this.appSecret) || model == null)
+            {
+                return BadRequest();
+            }
+
+            var Appreg = new BusinessLogic().GetAppDetails(this.appKey, this.appSecret);
+
+            foreach (var m in model)
+            {
+                var reqApp = Appreg?.AppEncryptionKey?.Where(x => x.EncryptionType.Equals(m.type)).FirstOrDefault();
+                var key = string.IsNullOrEmpty(m.key) ? reqApp?.EncryptionKey : m.key;
+                var salt = Encoding.ASCII.GetBytes(reqApp.EncryptionSalt);
+
+                result.Add(new Encryption().Encrypt(m.type, m.bytes, key, salt));
+            }
+            return Ok(result);
+        }
+
+
 
     }
 
-    
 
-   
+
+
 }

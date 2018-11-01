@@ -14,6 +14,10 @@ namespace EAAS.Models
         public List<string> Urls { get; set; }
 
         public List<EncryptionKeyValue> AppEncryptionKey { get; set; } = null;
+
+        public int Code { get; set; } = 400;
+        public string AppKey { get; set; } = string.Empty;
+        public string AppSecret { get; set; } = string.Empty;
     }
 
     //public class AppRegistration1
