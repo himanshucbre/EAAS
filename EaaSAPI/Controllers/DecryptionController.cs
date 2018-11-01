@@ -48,7 +48,8 @@ namespace EaaSAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Decrypt([FromBody] List<RequestModel> model)
+        [Route("[action]")]
+        public IActionResult DecryptText([FromBody] List<RequestModel> model)
         {
             var result = new List<string>();
 
@@ -66,6 +67,30 @@ namespace EaaSAPI.Controllers
                 var key = string.IsNullOrEmpty(m.key) ? reqApp?.EncryptionKey : m.key;
                 var salt = Encoding.ASCII.GetBytes(reqApp.EncryptionSalt);
                 result.Add(new Decryption().Decrypt(m.type, m.text, key, Encoding.ASCII.GetBytes(reqApp.EncryptionSalt)));
+            }
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult DecryptBytes([FromBody] List<RequestModel> model)
+        {
+            var result = new List<byte[]>();
+
+            if (string.IsNullOrEmpty(this.appKey) || string.IsNullOrEmpty(this.appSecret) || model == null)
+            {
+                return BadRequest();
+            }
+
+            var Appreg = new BusinessLogic().GetAppDetails(this.appKey, this.appSecret);
+
+
+            foreach (var m in model)
+            {
+                var reqApp = Appreg?.AppEncryptionKey?.Where(x => x.EncryptionType.Equals(m.type)).FirstOrDefault();
+                var key = string.IsNullOrEmpty(m.key) ? reqApp?.EncryptionKey : m.key;
+                var salt = Encoding.ASCII.GetBytes(reqApp.EncryptionSalt);
+                result.Add(new Decryption().Decrypt(m.type, m.bytes, key, Encoding.ASCII.GetBytes(reqApp.EncryptionSalt)));
             }
             return Ok(result);
         }

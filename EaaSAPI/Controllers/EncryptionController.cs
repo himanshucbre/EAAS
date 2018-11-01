@@ -18,7 +18,7 @@ namespace EaaSAPI.Controllers
     [ApiController]
     public class EncryptionController : BaseController
     {
-        [HttpGet("encryptText/{encryptionType}/{plainText}/{key}", Name = "encryptText")]
+        [HttpGet("Encryptstring/{encryptionType}/{plainText}/{key}", Name = "encryptText")]
         public IActionResult Encryptstring(string encryptionType, string plainText, string key)
         {
            
@@ -34,7 +34,7 @@ namespace EaaSAPI.Controllers
             return Ok(new Encryption().Encrypt(encryptionType, plainText, key, salt));
         }
 
-        [HttpGet("encryptByte/{encryptionType}/{plainBytes}/{key}", Name = "encryptByte")]
+        [HttpGet("encryptBytes/{encryptionType}/{plainBytes}/{key}", Name = "encryptByte")]
         public IActionResult EncryptBytes(string encryptionType, byte[] plainBytes, string key )
         {
             if (string.IsNullOrEmpty(this.appKey) || string.IsNullOrEmpty(this.appSecret))
@@ -51,6 +51,7 @@ namespace EaaSAPI.Controllers
         }
 
         [HttpPost]
+        [Route("[action]")]
         public IActionResult EncryptText([FromBody] List<RequestModel> model)
         {
             var result =new List<string>();
@@ -74,6 +75,7 @@ namespace EaaSAPI.Controllers
         }
 
         [HttpPost]
+        [Route("[action]")]
         public IActionResult EncryptByte([FromBody] List<RequestModel> model)
         {
             var result = new List<byte[]>();
